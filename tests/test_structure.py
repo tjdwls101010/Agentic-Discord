@@ -274,11 +274,17 @@ _PACKAGE_PATH = re.compile(rf"(^|[/\\]){PACKAGE_NAME}[/\\]")
 def package_paths(source: str, where: str) -> list[str]:
     """A string that is a filesystem path into the package (`…/discord/archive/…`), which reaches past every interface. URLs such as `https://discord.com/api` are not paths into it."""
     out = []
+    lines = source.splitlines()
     for node in ast.walk(ast.parse(source)):
         if isinstance(node, ast.Constant) and isinstance(node.value, str) and "://" not in node.value \
-                and (_PACKAGE_PATH.search(node.value) or node.value == PACKAGE_NAME):
+                and (_PACKAGE_PATH.search(node.value) or node.value == PACKAGE_NAME) \
+                and MUTATION_MARK not in lines[node.lineno - 1]:
             out.append(f"{where}:{node.lineno} names {node.value!r}")
     return out
+
+
+#: The one sanctioned way past every interface: a mutation test editing a copy of the package's source, marked on its line.
+MUTATION_MARK = "# mutation: edits a copy of the package's source"
 
 
 def exit_codes_outside_cli(scripts: Path) -> list[str]:
@@ -375,6 +381,7 @@ class CheckersCatchTheirCases(unittest.TestCase):
         self.assertTrue(package_paths("p = SCRIPTS / 'discord'\n", "t"))
         self.assertFalse(package_paths("u = 'https://discord.com/api/v9'\n", "t"))
         self.assertFalse(package_paths("m = 'discord.archive'\n", "t"))
+        self.assertFalse(package_paths(f"f = copy.joinpath('discord', rel)  {MUTATION_MARK}\n", "t"))
 
     def test_entry_and_exit_checkers(self) -> None:
         self.assertTrue(main_guards("if __name__ == '__main__':\n    pass\n"))
