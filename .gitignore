@@ -1,0 +1,19 @@
+# 토큰 (커밋하지 않는다)
+.env
+**/.env
+
+# 스킬 런타임 상태: 보관소, 결과 파일, 캡처
+.claude/skills/discord/data/
+
+# 로컬 작업·참고 자료
+.tmp/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+
+# 로컬 세션 기록으로 향하는 심볼릭 링크 (기기 고유 절대경로)
+.claude/histories
