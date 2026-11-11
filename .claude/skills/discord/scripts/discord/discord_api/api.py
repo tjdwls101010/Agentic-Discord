@@ -79,7 +79,9 @@ class Discord:
         data = self.http.get(f"channels/{channel_id}/threads/search",
                              {"archived": "true" if archived else "false", "sort_by": "last_message_time", "sort_order": "desc",
                               "limit": str(THREAD_PAGE), "offset": str(offset)})
-        threads = [parse.channel(t) for t in data.get("threads") or ()]
+        if not isinstance(data, dict) or not isinstance(data.get("threads"), list):
+            raise HttpFailure(f"GET /channels/{channel_id}/threads/search answered 200 without a list of threads", status=200)
+        threads = [parse.channel(t) for t in data["threads"]]
         firsts = {int(m["channel_id"]): parse.message(m) for m in data.get("first_messages") or ()}
         return threads, data.get("total_results"), bool(data.get("has_more")), firsts
 
@@ -99,8 +101,10 @@ class Discord:
         """One page of Discord's own search over a server (`server_id`) or a DM (`channel_id`): (estimated total, hits)."""
         path = f"guilds/{server_id}/messages/search" if server_id else f"channels/{channel_id}/messages/search"
         data = self.http.get(path, query)
+        if not isinstance(data, dict) or not isinstance(data.get("messages"), list):
+            raise HttpFailure(f"GET /{path} answered 200 without a list of hits", status=200)
         hits = []
-        for group in data.get("messages") or ():
+        for group in data["messages"]:
             pick = next((m for m in group if m.get("hit")), group[0] if group else None)
             if pick:
                 hits.append(parse.message(pick, server_id=server_id))

@@ -39,6 +39,16 @@ class HttpFailure(Refusal):
         self.code = code
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """A redirect is answered as the error it is: following it would send the token to wherever it points."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+_OPENER = urllib.request.build_opener(_NoRedirect)
+
+
 class Http:
     """Sequential GETs: at least `gap` seconds between requests, retries as Discord asks, and failures that never look like empty results."""
 
@@ -65,7 +75,7 @@ class Http:
         req = urllib.request.Request(url, headers={"Authorization": self._token, "User-Agent": USER_AGENT, "Accept": "application/json"})
         self.requests += 1
         try:
-            with urllib.request.urlopen(req, timeout=30) as r:
+            with _OPENER.open(req, timeout=30) as r:
                 return r.status, dict(r.headers), r.read()
         except urllib.error.HTTPError as e:
             with e:
@@ -119,6 +129,8 @@ class Http:
                 errors += 1
                 continue
             message = data.get("message") if isinstance(data, dict) else None
+            if isinstance(message, str):
+                message = message.replace(self._token, "<token>")
             detail = f" ({message}, code {code})" if message else ""
             if status == 401:
                 raise HttpFailure(f"Discord rejected the token{detail}", status=401, code=code, kind="auth", fix=self._token_hint)

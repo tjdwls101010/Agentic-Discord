@@ -75,11 +75,13 @@ def threads_text(api, db, channel_arg: str, *, limit: int) -> str:
     firsts = {}
     for archived in (False, True):
         offset = 0
-        while len(seen) < limit:
+        listed = 0
+        while listed < limit:   # each list up to the limit: the most recent overall can come from either
             page, total, more, first = api.threads(parent.id, archived=archived, offset=offset)
             totals[archived] = total
             for t in page:
                 seen.setdefault(t.id, t)
+            listed += len(page)
             firsts.update(first)
             if not more or not page:
                 break

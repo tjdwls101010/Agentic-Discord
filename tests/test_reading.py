@@ -385,7 +385,7 @@ class CommandsThroughTheEntryPoint(unittest.TestCase):
 
     def test_read_prints_only_the_header_over_inline_and_with_quiet(self) -> None:
         r = self.cli("read", str(self.ch), "--inline", "1")
-        self.assertIn("(not printed: 2 > --inline 1; read the result file)", r.stdout)
+        self.assertIn("(not printed: 2 messages > --inline 1; read the result file)", r.stdout)
         self.assertNotIn("hello study group", r.stdout)
         self.fake.requests.clear()
         r = self.cli("read", str(self.ch), "--quiet")

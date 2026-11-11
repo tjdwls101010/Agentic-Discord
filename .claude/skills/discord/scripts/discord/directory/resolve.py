@@ -93,25 +93,35 @@ def resolve_channel(api, db, arg: str) -> Channel:
 
 
 def resolve_target(api, db, arg: str) -> tuple[str, int, str]:
-    """('server', id, name) or ('dm', channel id, name) for `search`: a server, or a DM or group DM."""
+    """('server', id, name) or ('dm', channel id, name) for `search`: a server, or a DM or group DM. A name is matched against servers and DMs together, so one that fits several of either is refused with all of them."""
     link = discord_api.parse_link(arg)
     if link and link[0] == "@me" and link[1]:
         c = _fetch_channel(api, db, link[1])
         return "dm", c.id, c.name or str(c.id)
-    if arg.isdigit():
-        row = db.channel(int(arg))
-        if row and row["kind"] in ("dm", "group_dm"):
-            return "dm", row["id"], row["name"] or arg
-    try:
+    if link or arg.isdigit():
+        if arg.isdigit():
+            row = db.channel(int(arg))
+            if row and row["kind"] in ("dm", "group_dm"):
+                return "dm", row["id"], row["name"] or arg
         sid, name = resolve_server(api, db, arg)
         return "server", sid, name
-    except Refusal:
-        if arg.isdigit() or (link and link[0] != "@me"):
-            raise
-        dms = db.find_channels(arg, dm=True)
-        if len(dms) == 1:
-            return "dm", dms[0]["id"], dms[0]["name"]
-        raise
+
+    def pool():
+        return ([("server", i, n) for i, n in db.find_servers(arg)]
+                + [("dm", r["id"], r["name"]) for r in db.find_channels(arg, dm=True)])
+    found = pool()
+    if not found:
+        now = archive.now()
+        for s in api.servers():
+            db.save_server(s, now)
+        db.save_channels(api.dms(), now)
+        found = pool()
+    if len(found) == 1:
+        return found[0]
+    if not found:
+        raise Refusal(f"no server or DM is named like {arg!r}", fix="run `servers` for the list, then give an id or an exact name")
+    raise Refusal(f"{arg!r} matches {len(found)} servers and DMs: " + _candidates([f"{n} ({k}) #{i}" for k, i, n in found]),
+                  fix="give the id")
 
 
 _MENTION = re.compile(r"^<@!?(\d+)>$")

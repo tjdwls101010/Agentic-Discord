@@ -36,13 +36,14 @@ def _label(db, channel) -> str:
     return " › ".join(parts)
 
 
-def _finish(results_dir: Path, command: str, header: list[str], body: str, count: int, inline: int, quiet: bool = False) -> str:
+def _finish(results_dir: Path, command: str, header: list[str], body: str, count: int, inline: int, quiet: bool = False,
+            unit: str = "messages", flag: str = "--inline {inline}") -> str:
     path = archive.write_result(results_dir, command, "\n".join(header) + "\n\n" + body + "\n")
     header = header + [f"result: {path}"]
     if quiet or not body:
         return "\n".join(header)
     if count > inline:
-        return "\n".join(header + [f"(not printed: {count} > --inline {inline}; read the result file)"])
+        return "\n".join(header + [f"(not printed: {count} {unit} > {flag.format(inline=inline)}; read the result file)"])
     return "\n".join(header) + "\n\n" + body
 
 
@@ -231,4 +232,4 @@ def get(api, db, results_dir: Path, path: str, query: list[tuple[str, str]], *, 
         return _finish(results_dir, "get", header, body, len(msgs), inline)
     body = json.dumps(data, ensure_ascii=False, indent=1)
     header = [f"get: {shown}", f"json: {len(body)} characters"]
-    return _finish(results_dir, "get", header, body, len(body) // 1000, inline)
+    return _finish(results_dir, "get", header, body, len(body), inline * 1000, unit="characters", flag="--inline × 1000 = {inline}")
