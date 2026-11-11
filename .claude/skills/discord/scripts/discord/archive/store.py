@@ -45,7 +45,8 @@ class Archive:
             self.db.close()
             raise Refusal(f"the archive at {path} has schema version {version}; this version of the skill writes only version {SCHEMA_VERSION}",
                           fix=f"move {path} aside to start a new archive; the old one stays readable with sqlite3", kind="failed")
-        self.db.execute("PRAGMA journal_mode = WAL")
+        # Not WAL: `sqlite3 -readonly` cannot open a WAL database once its writer has closed and the -shm file is gone.
+        self.db.execute("PRAGMA journal_mode = DELETE")
 
     def close(self) -> None:
         self.db.close()
@@ -202,13 +203,14 @@ class Archive:
         return (proof.lo, proof.hi) if proof else None
 
     def _merge(self, db, channel_id: int, lo: int, hi: int, fetched_at: str, head_at: str | None) -> None:
+        reach = (channel_id, hi + 1, lo - 1)   # rows that overlap [lo, hi] or touch it
         touching = db.execute("SELECT lo_id, hi_id, oldest_fetched_at, head_at FROM coverage "
-                              "WHERE channel_id=? AND lo_id <= ? AND hi_id >= ?", (channel_id, hi + 1, lo - 1)).fetchall()
+                              "WHERE channel_id=? AND lo_id <= ? AND hi_id >= ?", reach).fetchall()
         new_lo = min([lo] + [r[0] for r in touching])
         new_hi = max([hi] + [r[1] for r in touching])
         oldest = min([fetched_at] + [r[2] for r in touching])
         heads = [r[3] for r in touching if r[3]]
-        db.execute("DELETE FROM coverage WHERE channel_id=? AND lo_id <= ? AND hi_id >= ?", (channel_id, hi + 1, lo - 1))
+        db.execute("DELETE FROM coverage WHERE channel_id=? AND lo_id <= ? AND hi_id >= ?", reach)
         if head_at is not None:
             db.execute("UPDATE coverage SET head_at=NULL WHERE channel_id=?", (channel_id,))
         else:
@@ -253,6 +255,36 @@ class Archive:
         roles = {rid: r[0] for rid in role_ids if (r := self.db.execute("SELECT name FROM roles WHERE id=?", (rid,)).fetchone())}
         return users, channels, roles
 
+    def find_servers(self, name: str) -> list[tuple[int, str]]:
+        """(id, name) of stored servers whose name equals `name` ignoring case, else contains it."""
+        rows = self.db.execute("SELECT id, name FROM servers").fetchall()
+        return _match(rows, name, lambda r: [r[1]])
+
+    def find_channels(self, name: str, server_id: int | None = None, *, dm: bool = False) -> list[dict]:
+        """Stored channels (not categories) named `name` ignoring case and a leading #, else containing it; within `server_id` when given, among DMs when `dm`."""
+        sql = ("SELECT c.id, c.server_id, c.parent_id, c.kind, c.name, c.last_message_id, c.can_view, c.can_read_history, s.name "
+               "FROM channels c LEFT JOIN servers s ON s.id = c.server_id WHERE c.name IS NOT NULL AND c.kind != 'category'")
+        args: tuple = ()
+        if server_id is not None:
+            sql += " AND c.server_id = ?"
+            args = (server_id,)
+        elif dm:
+            sql += " AND c.kind IN ('dm','group_dm')"
+        rows = self.db.execute(sql, args).fetchall()
+        keys = ("id", "server_id", "parent_id", "kind", "name", "last_message_id", "can_view", "can_read_history", "server")
+        return [dict(zip(keys, r)) for r in _match(rows, name.lstrip("#"), lambda r: [r[4]])]
+
+    def find_people(self, name: str, server_id: int | None) -> list[tuple[int, str]]:
+        """(user id, the names that matched) of stored users whose server nickname, global name or username equals `name` ignoring case, else contains it."""
+        rows = self.db.execute("SELECT u.id, mb.nick, u.global_name, u.username FROM users u "
+                               "LEFT JOIN members mb ON mb.user_id = u.id AND mb.server_id IS ?", (server_id,)).fetchall()
+        found = _match(rows, name.lstrip("@"), lambda r: [x for x in r[1:] if x])
+        return [(r[0], " / ".join(dict.fromkeys(x for x in r[1:] if x))) for r in found]
+
+    def server_name(self, server_id: int | None) -> str | None:
+        r = self.db.execute("SELECT name FROM servers WHERE id=?", (server_id,)).fetchone() if server_id else None
+        return r[0] if r else None
+
     def members_to_look_up(self, server_id: int, user_ids: set[int], fresh_after: str) -> set[int]:
         """Of `user_ids`, those with no member row in `server_id` fetched at or after `fresh_after`."""
         out = set()
@@ -263,4 +295,10 @@ class Archive:
         return out
 
     def size(self) -> int:
-        return sum(p.stat().st_size for p in (self.path, self.path.with_name(self.path.name + "-wal")) if p.exists())
+        return self.path.stat().st_size if self.path.exists() else 0
+
+
+def _match(rows, name: str, names_of) -> list:
+    want = name.casefold().strip()
+    exact = [r for r in rows if any(n.casefold() == want for n in names_of(r))]
+    return exact or [r for r in rows if any(want in n.casefold() for n in names_of(r))]
