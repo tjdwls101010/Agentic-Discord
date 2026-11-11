@@ -77,7 +77,7 @@ def _event(t: int, raw: dict) -> Event:
     if what == "thread_created":
         return Event(what, name=raw.get("content") or None, thread_id=_int(ref.get("channel_id")))
     if what == "pin":
-        return Event(what, thread_id=None, name=None)
+        return Event(what, message_id=_int(ref.get("message_id")))
     if what == "poll_result":
         fields = {}
         for e in raw.get("embeds") or ():
@@ -108,7 +108,8 @@ def message(raw: dict, *, channel_id: int | None = None, server_id: int | None =
         if raw.get("referenced_message"):
             referenced = message(raw["referenced_message"], server_id=_int(ref.get("guild_id")) or server_id)
         else:
-            missing = True
+            # Present but null: Discord says the message was deleted. Absent: it was not sent along (search hits).
+            missing = "referenced_message" in raw
     forward = None
     snapshots = raw.get("message_snapshots") or []
     if ref.get("type") == 1 and snapshots:
@@ -133,7 +134,7 @@ def message(raw: dict, *, channel_id: int | None = None, server_id: int | None =
         stickers=tuple(s.get("name") or "" for s in raw.get("sticker_items") or ()),
         pinned=bool(raw.get("pinned")),
         mentions=tuple(user(u) for u in raw.get("mentions") or ()),
-        thread=(int(thread["id"]), thread.get("name") or "") if thread else None,
+        thread=(int(thread["id"]), thread.get("name") or "", thread.get("message_count")) if thread else None,
         forward=forward,
         command_user=user(who) if who else None,
         command=meta.get("name") or legacy.get("name"),

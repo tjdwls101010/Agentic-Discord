@@ -71,11 +71,12 @@ class Forward:
 
 @dataclass(frozen=True)
 class Event:
-    """What a system message records. `what` is one word; `name`/`user`/`thread_id` carry what the word needs."""
+    """What a system message records. `what` is one word; the other fields carry what the word needs (a pin's `message_id`, a new thread's `thread_id` and `name`, a group change's `user`)."""
     what: str            # join, pin, call, recipient_add, recipient_remove, rename, icon, thread_created, boost, poll_result, other
     name: str | None = None
     user: User | None = None
     thread_id: int | None = None
+    message_id: int | None = None
     winner: str | None = None
     winner_votes: int | None = None
     total_votes: int | None = None
@@ -95,14 +96,14 @@ class Message:
     edited_at: str | None = None
     reply_to_id: int | None = None
     referenced: "Message | None" = None   # a reply's target, or a thread starter's original, when Discord sent it
-    referenced_missing: bool = False      # a reference Discord pointed to but did not send: deleted, or out of reach
+    referenced_missing: bool = False      # Discord said the referenced message is deleted
     attachments: tuple[Attachment, ...] = ()
     embeds: tuple[Embed, ...] = ()
     reactions: tuple[Reaction, ...] = ()
     stickers: tuple[str, ...] = ()
     pinned: bool = False
     mentions: tuple[User, ...] = ()
-    thread: tuple[int, str] | None = None        # (id, name) of a thread started from this message
+    thread: tuple[int, str, int | None] | None = None   # (id, name, message count) of a thread started from this message
     forward: Forward | None = None
     command_user: User | None = None             # who ran the app command this message answers
     command: str | None = None

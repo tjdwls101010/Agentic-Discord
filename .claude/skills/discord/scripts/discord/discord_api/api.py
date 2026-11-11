@@ -41,12 +41,9 @@ class Discord:
         me = self.me().id
         return [parse.channel(c, me=me) for c in self.http.get("users/@me/channels")]
 
-    def server(self, server_id: int) -> Server:
-        return parse.server(self.http.get(f"guilds/{server_id}", {"with_counts": "true"}))
-
-    def server_channels(self, server_id: int) -> list[Channel]:
-        """Every channel Discord lists for the server, with `can_view` and `can_read_history` worked out from your roles. Discord lists channels you cannot see too."""
-        guild = self.http.get(f"guilds/{server_id}")
+    def server_channels(self, server_id: int) -> tuple[Server, list[Channel]]:
+        """The server (with its roles) and every channel Discord lists for it, with `can_view` and `can_read_history` worked out from your roles. Discord lists channels you cannot see too."""
+        guild = self.http.get(f"guilds/{server_id}", {"with_counts": "true"})
         mine = self.http.get(f"users/@me/guilds/{server_id}/member")
         me = self.me().id
         perms = {int(r["id"]): int(r.get("permissions") or 0) for r in guild.get("roles") or ()}
@@ -56,8 +53,8 @@ class Discord:
             c = parse.channel(raw, server_id=server_id)
             view, history = channel_access(server_id=server_id, owner_id=int(guild.get("owner_id") or 0), my_id=me,
                                            my_roles=roles, role_permissions=perms, overwrites=raw.get("permission_overwrites") or [])
-            out.append(_with(c, can_view=view, can_read_history=history))
-        return out
+            out.append(replace(c, can_view=view, can_read_history=history))
+        return parse.server(guild), out
 
     def channel(self, channel_id: int) -> Channel:
         return parse.channel(self.http.get(f"channels/{channel_id}"), me=self.me().id)
@@ -112,7 +109,3 @@ class Discord:
     def get(self, path: str, query: list[tuple[str, str]] | None = None):
         """Any API path, raw JSON back."""
         return self.http.get(path, query)
-
-
-def _with(c: Channel, **kw) -> Channel:
-    return replace(c, **kw)
