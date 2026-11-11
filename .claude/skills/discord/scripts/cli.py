@@ -18,8 +18,11 @@ from pathlib import Path
 from discord import __version__, archive, credentials, directory, discord_api, doctor, reading
 from discord.errors import Refusal
 
-SKILL_DIR = Path(__file__).resolve().parents[1]
+# Not resolved: through a symlinked install this stays the path the skill's pre-approved sqlite3 rule names.
+SKILL_DIR = Path(os.path.abspath(__file__)).parents[1]
 DATA_DIR = Path(os.environ.get("DISCORD_SKILL_DATA") or SKILL_DIR / "data")
+#: Per-call result files live in the working directory: a session in another project cannot Read files inside the installed skill.
+OUTPUT_DIR = Path.cwd() / ".discord"
 
 EXIT_OK, EXIT_REFUSED, EXIT_USAGE, EXIT_BLOCKED = 0, 1, 2, 3
 
@@ -27,8 +30,8 @@ TARGET_FORMS = "an id, a discord.com/channels/… link, or a name"
 TIME_FORMS = "a message id or link, 7d / 12h / 30m ago, or a local date or date-time (2026-11-01, 2026-11-01T09:30)"
 EXITS = ("Exit: 0 done; 1 refused or failed (stdout is one JSON line: error, message, fix, help); "
          "2 the command line must change (same JSON line).")
-NOT_A_HISTORY = ("Every fetch also goes into the archive, an SQLite database at {db}, which you can query with "
-                 "sqlite3 -readonly; `.schema` there explains every table and what it cannot show.")
+NOT_A_HISTORY = ("Every fetch also goes into the archive, an SQLite database you can query, spelled exactly like this so it runs without a prompt: "
+                 "sqlite3 -readonly \"{db}\" \"<SQL or .schema>\". `.schema` explains every table and what it cannot show.")
 
 
 class Formatter(argparse.RawDescriptionHelpFormatter):
@@ -56,7 +59,7 @@ def build_parser() -> Parser:
 
     d = sub.add_parser("doctor", formatter_class=Formatter, help="check the token file, the token and the archive",
                        description="Check that the token file exists, is mode 600 and ignored by git, that Discord accepts the token (one request; prints only the account's name), and that the archive is one this version writes.",
-                       epilog="Output: one JSON line: ok, blockers [{problem, fix}], warnings, token_file, token_source, account, archive {path, bytes}, results {path, files, bytes}.\n\n"
+                       epilog="Output: one JSON line: ok, blockers [{problem, fix}], warnings, token_file, token_source, account, archive {path, bytes}, results {path, files, bytes} (the result files of this working directory).\n\n"
                               "Exit: 0 ok; 3 at least one blocker, each with its fix; 2 bad arguments.")
     d.set_defaults(run=run_doctor)
 
@@ -81,7 +84,7 @@ def build_parser() -> Parser:
     r = sub.add_parser("read", formatter_class=Formatter, help="fetch a channel's or thread's messages into the archive and print a transcript",
                        description="Fetch messages of one channel, thread or DM from Discord, store them in the archive, and print a transcript. A range is always fetched fresh, so edits, reactions and deletions since an earlier read show up; `--skip-covered` instead skips ranges the archive already read through. A parent channel's read does not include its threads.\n\n"
                                    "Choose the range with one of: --last N (the newest N), --after X (oldest first from X, optionally up to --before Y), --before Y alone (newest first, going back from Y), --around M (one window around a message), --new (from where the archive last reached the newest message, up to now). With none of these, --last is used with --limit.",
-                       epilog="Output: a header -- target (server › channel), range, count, whether the range was cut and the arguments that continue it, and the result file holding the whole transcript -- then the transcript itself when it has at most --inline messages.\n\n"
+                       epilog="Output: a header -- target (server › channel), range, count, whether the range was cut and the arguments that continue it, and the result file holding the whole transcript (a new file under ./.discord/results/ in the working directory, never overwritten) -- then the transcript itself when it has at most --inline messages.\n\n"
                               "Transcript: a line `── <date> ──` starts each local day. Each message is `HH:MM <author>: <text>  [<message id>]`, times local. `(edited)` and `(pinned)` follow the author. A reply shows `(reply to <author>: \"<start of its text>\")`, or `(reply to a deleted message)`. Mentions are written @name, #channel and @role, custom emoji :name:, and Discord timestamps as local times; an id that could not be named stays as @unknown(<id>). Lines starting with `  + ` belong to the message above: file, embed, sticker, poll, reactions, thread (a thread started from the message, with its [id]). A forward says where it came from; Discord does not give the forwarded message's original author. `* ` marks an event Discord wrote (joins, pins, calls, threads created, poll results); `[type N]` one this version does not know. The first entry of a thread made from a message shows that message (it lives in the parent channel).\n\n"
                               + EXITS + "\n\nA forum is refused (read its posts, listed by `threads`); so is a channel whose history you cannot read.")
     r.add_argument("channel", help=f"the channel, thread or DM: {TARGET_FORMS} (a name is looked up among channels `channels` and `servers` listed; server/channel also works).")
@@ -132,7 +135,7 @@ def build_parser() -> Parser:
 
 
 def run_doctor(args) -> int:
-    report = doctor.check(DATA_DIR)
+    report = doctor.check(DATA_DIR, OUTPUT_DIR)
     print(json.dumps(report, ensure_ascii=False))
     return EXIT_OK if report["ok"] else EXIT_BLOCKED
 
@@ -150,7 +153,7 @@ class _Session:
         self.db.close()
 
 
-RESULTS = DATA_DIR / "results"
+RESULTS = OUTPUT_DIR
 
 
 def run_servers(args) -> int:

@@ -15,7 +15,7 @@ def _size(path: Path) -> tuple[int, int]:
     return len(files), sum(p.stat().st_size for p in files)
 
 
-def check(data_dir: Path, *, env_file: Path = credentials.ENV_FILE) -> dict:
+def check(data_dir: Path, output_dir: Path, *, env_file: Path = credentials.ENV_FILE) -> dict:
     """`ok` is true when nothing found would stop a command; each blocker carries its fix. Makes one request (`users/@me`) when there is a token to test."""
     blockers: list[dict] = []
     warnings: list[dict] = []
@@ -43,10 +43,11 @@ def check(data_dir: Path, *, env_file: Path = credentials.ENV_FILE) -> dict:
             a.close()
         except Refusal as e:
             blockers.append({"problem": e.message, "fix": e.fix})
-    files, size = _size(data_dir / "results")
-    report["results"] = {"path": str(data_dir / "results"), "files": files, "bytes": size}
+    results = output_dir / "results"
+    files, size = _size(results)
+    report["results"] = {"path": str(results), "files": files, "bytes": size}
     if size > 500 * 1024 * 1024:
         warnings.append({"problem": f"result files take {size // (1024 * 1024)} MB",
-                         "fix": f"delete old files under {data_dir / 'results'}; each was only that call's output"})
+                         "fix": f"delete old files under {results}; each was only that call's output"})
     report["ok"] = not blockers
     return report

@@ -258,6 +258,8 @@ class ResultFiles(unittest.TestCase):
         paths = {archive.write_result(d, "read", f"x{i}") for i in range(20)}
         self.assertEqual(len(paths), 20)
         self.assertEqual(sorted(p.read_text() for p in paths), sorted(f"x{i}" for i in range(20)))
+        self.assertEqual({p.parent for p in paths}, {d / "results"})
+        self.assertEqual((d / ".gitignore").read_text(), "*\n")
 
 
 if __name__ == "__main__":

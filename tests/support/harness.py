@@ -33,7 +33,7 @@ def run_cli(*args: str, env: dict | None = None, cwd: str | None = None, timeout
     base = {k: v for k, v in os.environ.items() if not k.startswith("DISCORD_")}
     base.update(env or {})
     return subprocess.run([sys.executable, str(ENTRY), *args], capture_output=True, text=True, env=base,
-                          cwd=cwd or tempfile.gettempdir(), timeout=timeout, input=stdin)
+                          cwd=cwd or tempfile.mkdtemp(), timeout=timeout, input=stdin)
 
 
 def last_json(text: str) -> dict:
