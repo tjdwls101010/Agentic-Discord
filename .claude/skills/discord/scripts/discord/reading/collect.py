@@ -88,11 +88,16 @@ def collect(api, db, channel_id: int, spec: Spec, *, last_message_id: int | None
             if head is None:
                 raise Refusal("this archive has never reached the newest message of this channel, so --new has no starting point",
                               fix="read it once with --last N (or any read that reaches the newest message), then use --new")
-            after = max(0, discord_api.at(discord_api.time_of(head.hi) - NEW_OVERLAP) - 1)
-            known = {int(r["id"]) for r in db.stored_raw(channel_id, after + 1, head.hi)}
-            new_from = head.hi
+            new_from = head.head_id
+            after = max(0, discord_api.at(discord_api.time_of(new_from) - NEW_OVERLAP) - 1)
+            known = {int(r["id"]) for r in db.stored_raw(channel_id, after + 1, new_from)}
         past = is_past(before)
         cursor = after
+        counted = 0   # what --limit counts: messages fetched, or for --new only those not seen before
+
+        def fresh(m: Message) -> bool:
+            return spec.mode != "new" or m.id > new_from or m.id not in known
+
         while True:
             if spec.skip_covered:
                 r = next((r for r in db.coverage(channel_id) if r.lo <= cursor + 1 <= r.hi), None)
@@ -105,7 +110,7 @@ def collect(api, db, channel_id: int, spec: Spec, *, last_message_id: int | None
                     if before is not None and cursor >= before - 1:
                         break
                     continue
-            want = min(discord_api.PAGE, spec.limit - out.fetched)
+            want = min(discord_api.PAGE, spec.limit - counted)
             if want <= 0:
                 out.cut = "newer"
                 out.resume = {"after": cursor, **({"before": before} if before is not None else {})}
@@ -116,13 +121,16 @@ def collect(api, db, channel_id: int, spec: Spec, *, last_message_id: int | None
                                         received_ids=frozenset(ids), after=cursor, before=before, before_is_past=past))
             out.messages += keep
             out.fetched += len(keep)
+            counted += sum(1 for m in keep if fresh(m))
             if len(ids) < want or len(keep) < len(msgs):
                 out.reached_head = len(ids) < want and len(keep) == len(msgs)
                 break
             cursor = max(ids)
             _progress(f"fetched {out.fetched} messages…")
         if spec.mode == "new":
-            out.messages = [m for m in out.messages if m.id > new_from or m.id not in known]
+            out.messages = [m for m in out.messages if fresh(m)]
+            if out.cut:
+                db.advance_head(channel_id, cursor)
         return out
 
     # newest first: --last, --before alone, or the default

@@ -4,8 +4,9 @@ A toy Discord (tests/support/fake_discord.py) pages 100 at a time, newest first,
 
 1. coverage is true: every message alive in the toy whose id lies in a coverage range of its channel is stored and not marked absent;
 2. absence is true: every row marked absent was deleted in the toy;
-3. --new misses nothing: a --new that was not cut stores every message alive in the toy above the newest message an earlier read took while walking from the channel's newest (--last, or an --after or --new that ran to the end) -- tracked here from the toy, not from the archive's head mark;
-4. a read returns its range: a read by --after/--before that was not cut returns every message in its range that existed throughout the read.
+3. --new misses nothing: a --new that was not cut returns every message that existed throughout it above the newest message an earlier read delivered while walking from the channel's newest (--last, an --after whose range ran past the newest and was not cut, any --new) -- tracked here from the toy, not from the archive's head mark;
+4. a read returns its range: a read by --after/--before that was not cut returns every message in its range that existed throughout the read;
+5. a read cut at its limit returned something, so running it again makes progress.
 
 The oracle is the toy's state, never the archive's own bookkeeping. `MutantsAreCaught` breaks one coverage rule at a time in a copy of the skill and requires this fuzz to fail on it.
 """
@@ -122,7 +123,8 @@ class Run:
                 raise
             return
         ids = [m.id for m in out.messages]
-        walked_from_newest = spec.mode == "last" or (spec.mode in ("after", "new") and spec.before is None and out.cut is None)
+        newest = max(w.alive(self.channel), default=0)
+        walked_from_newest = spec.mode in ("last", "new") or (spec.mode == "after" and out.cut is None and (spec.before is None or spec.before > newest))
         if ids and walked_from_newest:
             self.true_head = max(ids + ([self.true_head] if self.true_head else []))
         self.check(spec, out, head_before, alive_at_start)
@@ -138,14 +140,16 @@ class Run:
         wrongly_absent = [i for i, a in stored.items() if a is not None and i in alive]
         if wrongly_absent:
             problems.append(f"marked absent but alive: {wrongly_absent[:3]}")
+        got = {m.id for m in out.messages}
         if spec.mode == "new" and head_before is not None and out.cut is None:
-            skipped = [i for i in alive if i > head_before and (i not in stored or stored[i] is not None)]
+            skipped = sorted(i for i in alive_at_start & alive if i > head_before and i not in got)
             if skipped:
-                problems.append(f"--new skipped {len(skipped)} messages above the old head {head_before}, e.g. {skipped[:3]}")
+                problems.append(f"--new left out {len(skipped)} messages above the old head {head_before}, e.g. {skipped[:3]}")
+        if out.cut and not out.messages:
+            problems.append("a read cut at its limit returned nothing, so running it again cannot progress")
         if spec.mode in ("after", "before") and out.cut is None:
             lo = spec.after if spec.after is not None else -1
             hi = spec.before if spec.before is not None else float("inf")
-            got = {m.id for m in out.messages}
             lost = sorted(i for i in alive_at_start & alive if lo < i < hi and i not in got)
             if lost:
                 problems.append(f"the read left out {len(lost)} messages of its range, e.g. {lost[:3]}")
@@ -171,35 +175,53 @@ MUTANTS = {
     "after bound includes the cursor": ("archive/coverage.py", "lo = page.after + 1", "lo = page.after"),
     "a cut page claims the channel start": ("archive/coverage.py", "lo = page.channel_id if short else", "lo = page.channel_id if True else"),
     "a future before counts as past": ("archive/coverage.py", "if page.before is not None and page.before_is_past:", "if page.before is not None:"),
-    "the head range reaches into the future": ("archive/coverage.py", "    elif ids:\n        hi = max(ids)\n    else:\n        return None, False", "    elif ids:\n        hi = max(ids) + (1 << 40)\n    else:\n        return None, False"),
+    "the head range reaches into the future": ("archive/coverage.py", "    elif ids:\n        hi = max(ids)\n    else:\n        return None, None", "    elif ids:\n        hi = max(ids) + (1 << 40)\n    else:\n        return None, None"),
     "separate ranges merge": ("archive/store.py", "reach = (channel_id, hi + 1, lo - 1)", "reach = (channel_id, hi + (1 << 40), lo - (1 << 40))"),
-    "an around window becomes the head": ("archive/coverage.py", "return (Proof(min(ids), max(ids), False) if ids else None), False", "return (Proof(min(ids), max(ids), True) if ids else None), True"),
+    "an around window becomes the head": ("archive/coverage.py", "return (Proof(min(ids), max(ids)) if ids else None), None", "return (Proof(min(ids), max(ids)) if ids else None), (max(ids) if ids else None)"),
     "absence is marked outside the proven range": ("archive/store.py", "SET absent_at=? WHERE channel_id=? AND id BETWEEN ? AND ?", "SET absent_at=? WHERE channel_id=? AND id BETWEEN ? - (1 << 40) AND ?"),
     "--skip-covered jumps past the end of a range": ("reading/collect.py", "                    cursor = r.hi\n", "                    cursor = r.hi + (1 << 30)\n"),
+    "--new counts messages it already had toward the limit": ("reading/collect.py", "counted += sum(1 for m in keep if fresh(m))", "counted += len(keep)"),
+    "a merged range carries the head to its end": ("archive/store.py", "            head_at, head_id = kept\n", "            head_at, head_id = kept[0], (new_hi if kept[0] else None)\n"),
     "--skip-covered drops a covered range's stored messages": ("reading/collect.py", "stored_raw(channel_id, r.lo, cursor - 1)", "stored_raw(channel_id, r.lo + 1, cursor - 1)"),
 }
 
 
+def fuzz_copy(change: tuple[str, str, str] | None) -> tuple[bool, str]:
+    """Run the fuzz against a copy of the skill with one change applied: (the fuzz found a broken promise, its output)."""
+    copy = Path(tempfile.mkdtemp()) / "scripts"
+    try:
+        shutil.copytree(SCRIPTS, copy, ignore=shutil.ignore_patterns("__pycache__", ".env"))
+        if change:
+            rel, old, new = change
+            target = copy.joinpath("discord", *rel.split("/"))  # mutation: edits a copy of the package's source
+            text = target.read_text(encoding="utf-8")
+            if text.count(old) != 1:
+                raise AssertionError(f"the mutant no longer applies: {old!r} occurs {text.count(old)} times")
+            target.write_text(text.replace(old, new), encoding="utf-8")
+        env = {**os.environ, "DISCORD_SKILL_SCRIPTS": str(copy), "DISCORD_FUZZ_SEEDS": str(SEEDS)}
+        r = subprocess.run([sys.executable, "-m", "unittest", "test_coverage_model.Fuzz"], cwd=Path(__file__).resolve().parent,
+                           env=env, capture_output=True, text=True, timeout=600)
+        return "AssertionError: seed " in r.stderr, r.stderr[-2000:]
+    finally:
+        shutil.rmtree(copy.parent, ignore_errors=True)
+
+
 @unittest.skipIf(os.environ.get("DISCORD_SKILL_SCRIPTS"), "already running against a copy")
 class MutantsAreCaught(unittest.TestCase):
+    """Only an assertion from the fuzz counts as caught: a crash, an import error or a refused socket would make any mutant look caught."""
+
+    def test_the_unmutated_copy_passes(self) -> None:
+        caught, output = fuzz_copy(None)
+        self.assertFalse(caught, output)
+        self.assertIn("OK", output)
+
     def test_each_broken_rule_turns_the_fuzz_red(self) -> None:
-        tests = Path(__file__).resolve().parent
-        survivors = []
-        for name, (rel, old, new) in MUTANTS.items():
-            with self.subTest(mutant=name):
-                copy = Path(tempfile.mkdtemp()) / "scripts"
-                shutil.copytree(SCRIPTS, copy, ignore=shutil.ignore_patterns("__pycache__", ".env"))
-                target = copy.joinpath("discord", *rel.split("/"))  # mutation: edits a copy of the package's source
-                text = target.read_text(encoding="utf-8")
-                self.assertEqual(text.count(old), 1, f"mutant {name!r} no longer applies: the code it breaks changed")
-                target.write_text(text.replace(old, new), encoding="utf-8")
-                env = {**os.environ, "DISCORD_SKILL_SCRIPTS": str(copy), "DISCORD_FUZZ_SEEDS": str(SEEDS)}
-                r = subprocess.run([sys.executable, "-m", "unittest", "test_coverage_model.Fuzz"], cwd=tests, env=env,
-                                   capture_output=True, text=True, timeout=600)
-                shutil.rmtree(copy.parent, ignore_errors=True)
-                if r.returncode == 0:
-                    survivors.append(name)
-        self.assertEqual(survivors, [])
+        survivors = {}
+        for name, change in MUTANTS.items():
+            caught, output = fuzz_copy(change)
+            if not caught:
+                survivors[name] = output[-300:]
+        self.assertEqual(survivors, {})
 
 
 if __name__ == "__main__":

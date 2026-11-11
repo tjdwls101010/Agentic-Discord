@@ -68,15 +68,18 @@ class Schema(ArchiveCase):
         for sql in bad:
             with self.subTest(sql=sql), self.assertRaises(sqlite3.DatabaseError):
                 db.execute(sql)
-        db.execute("INSERT INTO coverage VALUES (1000, 10, 20, 't', 't')")
-        for sql in ("INSERT INTO coverage VALUES (1000, 15, 30, 't', NULL)",   # overlaps
-                    "INSERT INTO coverage VALUES (1000, 21, 30, 't', NULL)",   # touches
-                    "INSERT INTO coverage VALUES (1000, 1, 9, 't', NULL)",     # touches below
-                    "INSERT INTO coverage VALUES (1000, 40, 50, 't', 'u')",    # a second head
-                    "INSERT INTO coverage VALUES (1000, 60, 50, 't', NULL)"):  # lo > hi
+        db.execute("INSERT INTO coverage VALUES (1000, 10, 20, 't', 't', 20)")
+        db.execute("INSERT INTO channels (id, kind, fetched_at) VALUES (1001, 'text', 't')")
+        for sql in ("INSERT INTO coverage VALUES (1000, 15, 30, 't', NULL, NULL)",   # overlaps
+                    "INSERT INTO coverage VALUES (1000, 21, 30, 't', NULL, NULL)",   # touches
+                    "INSERT INTO coverage VALUES (1000, 1, 9, 't', NULL, NULL)",     # touches below
+                    "INSERT INTO coverage VALUES (1000, 40, 50, 't', 'u', 45)",      # a second head
+                    "INSERT INTO coverage VALUES (1000, 60, 50, 't', NULL, NULL)",   # lo > hi
+                    "INSERT INTO coverage VALUES (1000, 40, 50, 't', NULL, 45)",     # head_id without head_at
+                    "INSERT INTO coverage VALUES (1001, 40, 50, 't', 'u', 51)"):     # head_id outside the range
             with self.subTest(sql=sql), self.assertRaises(sqlite3.DatabaseError):
                 db.execute(sql)
-        db.execute("INSERT INTO coverage VALUES (1000, 40, 50, 't', NULL)")
+        db.execute("INSERT INTO coverage VALUES (1000, 40, 50, 't', NULL, NULL)")
         with self.assertRaises(sqlite3.DatabaseError):
             db.execute("UPDATE coverage SET hi_id = 39 WHERE lo_id = 10")
 
@@ -220,6 +223,28 @@ class PageRules(ArchiveCase):
         self.a.record_page(page([1010, 1020], fetched_at="t1", requested=2, around=True))
         self.a.record_page(page([], fetched_at="t2", requested=100, after=1020))
         self.assertEqual(self.cov(), [(1010, 1020, True)])
+
+    def test_a_range_merged_into_the_head_keeps_the_head_where_it_was_seen(self) -> None:
+        """A later window that touches the head extends the range but is no evidence of a newer head: --new still continues after the newest message the head read found."""
+        self.a.record_page(page([1010, 1020], fetched_at="t1", requested=2))
+        self.a.record_page(page([1021, 1030], fetched_at="t2", requested=2, around=True))
+        head = self.a.head(CH)
+        self.assertEqual((head.lo, head.hi, head.head_id, head.head_at), (1010, 1030, 1020, "t1"))
+
+    def test_an_empty_walk_to_a_past_bound_puts_the_head_where_messages_ended(self) -> None:
+        """Nothing after 1005 up to 1999: the walk reached the end at 1006, not at 1999, which is only a time bound."""
+        self.a.record_page(page([], fetched_at="t2", requested=100, after=1005, before=2000, before_is_past=True))
+        head = self.a.head(CH)
+        self.assertEqual((head.lo, head.hi, head.head_id), (1006, 1999, 1006))
+
+    def test_an_answer_older_than_an_absence_does_not_clear_it(self) -> None:
+        """A slow read requested at t1 commits after another read at t2 found the message gone."""
+        self.a.record_page(page([1010], fetched_at="t0", requested=1, around=True))
+        self.a.db.execute("UPDATE messages SET absent_at='t2' WHERE id=1010")
+        self.a.record_page(page([1010], fetched_at="t1", requested=1, around=True))
+        self.assertEqual(self.absent(), {1010})
+        self.a.record_page(page([1010], fetched_at="t3", requested=1, around=True))
+        self.assertEqual(self.absent(), set())
 
     def test_merging_keeps_the_oldest_fetch_time(self) -> None:
         self.a.record_page(page([1010, 1020], fetched_at="t5", requested=2, around=True))

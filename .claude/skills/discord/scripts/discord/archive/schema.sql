@@ -96,9 +96,12 @@ CREATE TABLE coverage (
   lo_id              INTEGER NOT NULL,
   hi_id              INTEGER NOT NULL,
   oldest_fetched_at  TEXT NOT NULL,  -- the earliest fetch among the pieces merged into this range: all of it was read at or after this time
-  head_at            TEXT,           -- when this range was seen to reach the channel's newest message (nothing newer existed then); `read --new` continues from hi_id of the row that has it. NULL: this range did not reach the newest message. At most one per channel (enforced)
+  head_at            TEXT,           -- when a read walked to the channel's newest message and its walk ended in this range. NULL: none did. At most one row per channel has it (enforced)
+  head_id            INTEGER,        -- where `read --new` continues: the newest message that read found (or where it found nothing newer), moved up by a --new that stopped at its limit. Set exactly when head_at is. Ranges merged in later can reach past it
   PRIMARY KEY (channel_id, lo_id),
-  CHECK (lo_id <= hi_id)
+  CHECK (lo_id <= hi_id),
+  CHECK ((head_at IS NULL) = (head_id IS NULL)),
+  CHECK (head_id IS NULL OR head_id BETWEEN lo_id AND hi_id)
 ) STRICT, WITHOUT ROWID;
 CREATE UNIQUE INDEX coverage_one_head ON coverage (channel_id) WHERE head_at IS NOT NULL;
 CREATE TRIGGER coverage_separate_on_insert BEFORE INSERT ON coverage
@@ -132,5 +135,5 @@ CREATE VIEW coverage_named AS
   SELECT cv.channel_id, c.name AS channel, cv.lo_id, cv.hi_id,
          strftime('%Y-%m-%dT%H:%M:%fZ', ((cv.lo_id >> 22) + 1420070400000) / 1000.0, 'unixepoch') AS from_at,
          strftime('%Y-%m-%dT%H:%M:%fZ', ((cv.hi_id >> 22) + 1420070400000) / 1000.0, 'unixepoch') AS to_at,
-         cv.oldest_fetched_at, cv.head_at
+         cv.oldest_fetched_at, cv.head_at, cv.head_id
     FROM coverage cv JOIN channels c ON c.id = cv.channel_id;

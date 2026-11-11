@@ -111,6 +111,45 @@ class PageBoundaries(CollectorCase):
         self.assertEqual([(r.lo, r.hi) for r in self.db.coverage(ch)], [(ch, ids[-1])])
 
 
+class Scenarios(CollectorCase):
+    def test_a_newest_first_read_cut_by_the_limit_claims_only_what_it_stored(self) -> None:
+        """Scenario 1, through the collector."""
+        self.collect(reading.Spec("before", 150, before=self.ids[200]))
+        self.assertEqual(self.cov(), [(self.ids[50], self.ids[200] - 1)])
+
+    def test_an_empty_answer_between_two_ranges_closes_the_gap(self) -> None:
+        """Scenario 6, through the collector: the only message between two read ranges is deleted."""
+        self.collect(reading.Spec("after", 10, after=self.ids[0]))           # ids[1..10]
+        self.collect(reading.Spec("after", 10, after=self.ids[11]))          # ids[12..21]
+        self.world.delete(self.ids[11])
+        out = self.collect(reading.Spec("after", 100, after=self.ids[10], before=self.ids[12]))
+        self.assertEqual(self.got(out), [])
+        self.assertEqual(self.cov(), [(self.ids[0] + 1, self.ids[21])])
+
+    def test_a_failure_mid_walk_is_raised_and_stores_nothing_for_that_page(self) -> None:
+        """Scenario 9, through the collector: a 200 that is not a list is not an empty page."""
+        self.fake.script(r"/api/v9/channels/\d+/messages", (200, {"oops": True}))
+        with self.assertRaises(api.HttpFailure):
+            self.collect(reading.Spec("last", 50))
+        self.assertEqual(self.cov(), [])
+        self.assertEqual(self.db.db.execute("SELECT count(*) FROM messages").fetchone()[0], 0)
+
+    def test_a_thread_read_stores_the_stub_in_the_thread_and_the_original_in_the_parent(self) -> None:
+        """Scenario 11, from the API's JSON: the thread's id is the original's; the stub has its own id."""
+        w = self.world
+        original = self.ids[100]
+        thread = w.channel("t", guild=int(w.channels[self.ch]["guild_id"]), type=11, parent=self.ch)
+        w.channels[thread]["id"] = str(original)
+        w.channels[original] = w.channels.pop(thread)
+        stub = w.post(original, self.author, "", type=21, message_reference={"message_id": str(original), "channel_id": str(self.ch)},
+                      referenced_message=w.messages[self.ch][original])
+        self.db.save_channels([self.api.channel(original)], "t")
+        out = reading.collect(self.api, self.db, original, reading.Spec("last", 10), now=lambda: w.now)
+        self.assertEqual([m.kind for m in out.messages], ["thread_starter"])
+        rows = dict(self.db.db.execute("SELECT id, channel_id FROM messages WHERE id IN (?, ?)", (original, stub)))
+        self.assertEqual(rows, {original: self.ch, stub: original})
+
+
 class Interrupted(CollectorCase):
     def test_an_interrupted_read_keeps_its_committed_pages_and_skip_covered_continues(self) -> None:
         """Scenario 7: the third page fails and keeps failing; the first two are stored and true, and the rerun fetches only the rest."""
@@ -145,6 +184,45 @@ class Interrupted(CollectorCase):
         self.assertEqual([m.id for m in out.messages], ids)
         self.assertTrue(out.reached_start)
         self.assertEqual([(r.lo, r.hi) for r in self.db.coverage(ch)], [(ch, ids[-1])])
+
+
+class Scenarios(CollectorCase):
+    def test_a_newest_first_read_cut_by_the_limit_claims_only_what_it_stored(self) -> None:
+        """Scenario 1, through the collector."""
+        self.collect(reading.Spec("before", 150, before=self.ids[200]))
+        self.assertEqual(self.cov(), [(self.ids[50], self.ids[200] - 1)])
+
+    def test_an_empty_answer_between_two_ranges_closes_the_gap(self) -> None:
+        """Scenario 6, through the collector: the only message between two read ranges is deleted."""
+        self.collect(reading.Spec("after", 10, after=self.ids[0]))           # ids[1..10]
+        self.collect(reading.Spec("after", 10, after=self.ids[11]))          # ids[12..21]
+        self.world.delete(self.ids[11])
+        out = self.collect(reading.Spec("after", 100, after=self.ids[10], before=self.ids[12]))
+        self.assertEqual(self.got(out), [])
+        self.assertEqual(self.cov(), [(self.ids[0] + 1, self.ids[21])])
+
+    def test_a_failure_mid_walk_is_raised_and_stores_nothing_for_that_page(self) -> None:
+        """Scenario 9, through the collector: a 200 that is not a list is not an empty page."""
+        self.fake.script(r"/api/v9/channels/\d+/messages", (200, {"oops": True}))
+        with self.assertRaises(api.HttpFailure):
+            self.collect(reading.Spec("last", 50))
+        self.assertEqual(self.cov(), [])
+        self.assertEqual(self.db.db.execute("SELECT count(*) FROM messages").fetchone()[0], 0)
+
+    def test_a_thread_read_stores_the_stub_in_the_thread_and_the_original_in_the_parent(self) -> None:
+        """Scenario 11, from the API's JSON: the thread's id is the original's; the stub has its own id."""
+        w = self.world
+        original = self.ids[100]
+        thread = w.channel("t", guild=int(w.channels[self.ch]["guild_id"]), type=11, parent=self.ch)
+        w.channels[thread]["id"] = str(original)
+        w.channels[original] = w.channels.pop(thread)
+        stub = w.post(original, self.author, "", type=21, message_reference={"message_id": str(original), "channel_id": str(self.ch)},
+                      referenced_message=w.messages[self.ch][original])
+        self.db.save_channels([self.api.channel(original)], "t")
+        out = reading.collect(self.api, self.db, original, reading.Spec("last", 10), now=lambda: w.now)
+        self.assertEqual([m.kind for m in out.messages], ["thread_starter"])
+        rows = dict(self.db.db.execute("SELECT id, channel_id FROM messages WHERE id IN (?, ?)", (original, stub)))
+        self.assertEqual(rows, {original: self.ch, stub: original})
 
 
 class Interrupted(CollectorCase):
@@ -223,6 +301,33 @@ class New(CollectorCase):
         self.assertTrue(second.reached_head)
         self.assertEqual(self.got(first) + self.got(second), later)
         self.assertEqual(self.db.head(self.ch).hi, later[-1])
+
+    def test_new_makes_progress_when_the_overlap_alone_fills_the_limit(self) -> None:
+        """Ten stored messages inside the 5-second overlap and --limit 3: the overlap must not use up the limit."""
+        w = self.world
+        burst = []
+        for _ in range(10):
+            w.tick(0.2)
+            burst.append(w.post(self.ch, self.author, "burst"))
+        self.collect(reading.Spec("last", 20))
+        w.tick(1)
+        fresh = w.post(self.ch, self.author, "fresh")
+        out = self.collect(reading.Spec("new", 3))
+        self.assertEqual(self.got(out), [fresh])
+        self.assertTrue(out.reached_head)
+
+    def test_new_shows_everything_since_the_last_walk_to_the_newest_even_if_another_read_stored_some(self) -> None:
+        """Scenario 4, and a window that touches the head: posts since the head stay new to --new."""
+        self.collect(reading.Spec("last", 5))
+        w = self.world
+        later = []
+        for _ in range(30):
+            w.tick(1)
+            later.append(w.post(self.ch, self.author, "later"))
+        self.collect(reading.Spec("around", 10, around=later[-5]))       # a window far above the head
+        self.collect(reading.Spec("around", 10, around=later[3]))        # one touching the head
+        out = self.collect(reading.Spec("new", 1000))
+        self.assertEqual(self.got(out), later)
 
     def test_search_hits_do_not_move_where_new_starts(self) -> None:
         """Scenario 8."""

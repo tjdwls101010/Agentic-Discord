@@ -102,7 +102,8 @@ def read(api, db, results_dir: Path, channel_arg: str, *, last: int | None, afte
         end = (f"one window; continue with `{_resume_args(channel.id, out.resume['older'])}` or `{_resume_args(channel.id, out.resume['newer'])}`"
                if out.resume else "one window; nothing there")
     elif out.cut == "newer":
-        end = f"cut at --limit {limit}: newer messages remain; continue with `{_resume_args(channel.id, out.resume)}`" + (" (or --new again)" if spec.mode == "new" else "")
+        end = (f"cut at --limit {limit}: newer messages remain; continue with `read {channel.id} --new`" if spec.mode == "new" else
+               f"cut at --limit {limit}: newer messages remain; continue with `{_resume_args(channel.id, out.resume)}`")
     elif out.cut == "older":
         end = f"older messages remain; continue with `{_resume_args(channel.id, out.resume)}`"
     elif out.reached_start:

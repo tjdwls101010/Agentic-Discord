@@ -22,6 +22,7 @@ class Range:
     hi: int
     oldest_fetched_at: str
     head_at: str | None
+    head_id: int | None
 
 
 def _b(v: bool | None) -> int | None:
@@ -173,7 +174,7 @@ class Archive:
 
     def record_page(self, page: Page) -> tuple[int, int] | None:
         """Store one page of a channel's listing and what it proves, in one transaction: the messages, the range read through (merged with ranges it overlaps or touches), absences inside that range, and the head mark. Returns the range proven, if any."""
-        proof, reaches_head = prove(page)
+        proof, head_id = prove(page)
         with self._tx() as db:
             if not db.execute("SELECT 1 FROM channels WHERE id=?", (page.channel_id,)).fetchone():
                 self._placeholder_channel(db, page.channel_id, None, page.fetched_at)
@@ -184,7 +185,9 @@ class Archive:
                            "VALUES (?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET channel_id=excluded.channel_id, "
                            "author_id=excluded.author_id, sent_at=excluded.sent_at, edited_at=excluded.edited_at, kind=excluded.kind, "
                            "content=excluded.content, reply_to_id=excluded.reply_to_id, raw=excluded.raw, fetched_at=excluded.fetched_at, "
-                           "absent_at=NULL WHERE excluded.fetched_at >= messages.fetched_at", row)
+                           # an answer older than the absence it would clear says nothing about now
+                           "absent_at=CASE WHEN messages.absent_at > excluded.fetched_at THEN messages.absent_at END "
+                           "WHERE excluded.fetched_at >= messages.fetched_at", row)
             self._insert_strays(db, [m.referenced for m in page.messages if m.referenced], page.fetched_at)
             if proof is not None:
                 seen = [m.id for m in page.messages]
@@ -192,40 +195,49 @@ class Archive:
                 db.execute(f"UPDATE messages SET absent_at=? WHERE channel_id=? AND id BETWEEN ? AND ? AND absent_at IS NULL "
                            f"AND fetched_at < ? AND id NOT IN ({','.join('?' * len(seen))})",
                            (page.fetched_at, page.channel_id, proof.lo, proof.hi, page.fetched_at, *seen))
-                self._merge(db, page.channel_id, proof.lo, proof.hi, page.fetched_at, page.fetched_at if proof.reaches_head else None)
-            elif reaches_head and page.after is not None:
-                # Nothing after `after`: the range holding it reached the newest message.
+                self._merge(db, page.channel_id, proof.lo, proof.hi, page.fetched_at, head_id)
+            elif head_id is not None:
+                # Nothing after `after`: the range holding it ends the walk at the newest message.
                 row = db.execute("SELECT lo_id FROM coverage WHERE channel_id=? AND lo_id <= ? AND hi_id >= ?",
-                                 (page.channel_id, page.after, page.after)).fetchone()
+                                 (page.channel_id, head_id, head_id)).fetchone()
                 if row:
-                    db.execute("UPDATE coverage SET head_at=NULL WHERE channel_id=? AND lo_id != ?", (page.channel_id, row[0]))
-                    db.execute("UPDATE coverage SET head_at=? WHERE channel_id=? AND lo_id=?", (page.fetched_at, page.channel_id, row[0]))
+                    db.execute("UPDATE coverage SET head_at=NULL, head_id=NULL WHERE channel_id=? AND lo_id != ?", (page.channel_id, row[0]))
+                    db.execute("UPDATE coverage SET head_at=?, head_id=? WHERE channel_id=? AND lo_id=?",
+                               (page.fetched_at, head_id, page.channel_id, row[0]))
         return (proof.lo, proof.hi) if proof else None
 
-    def _merge(self, db, channel_id: int, lo: int, hi: int, fetched_at: str, head_at: str | None) -> None:
+    def advance_head(self, channel_id: int, head_id: int) -> None:
+        """Move where --new continues up to `head_id`, when it lies in the head's range (a --new that stopped at its limit read contiguously up to there)."""
+        with self._tx() as db:
+            db.execute("UPDATE coverage SET head_id=? WHERE channel_id=? AND head_at IS NOT NULL AND head_id < ? AND ? BETWEEN lo_id AND hi_id",
+                       (head_id, channel_id, head_id, head_id))
+
+    def _merge(self, db, channel_id: int, lo: int, hi: int, fetched_at: str, head_id: int | None) -> None:
         reach = (channel_id, hi + 1, lo - 1)   # rows that overlap [lo, hi] or touch it
-        touching = db.execute("SELECT lo_id, hi_id, oldest_fetched_at, head_at FROM coverage "
+        touching = db.execute("SELECT lo_id, hi_id, oldest_fetched_at, head_at, head_id FROM coverage "
                               "WHERE channel_id=? AND lo_id <= ? AND hi_id >= ?", reach).fetchall()
         new_lo = min([lo] + [r[0] for r in touching])
         new_hi = max([hi] + [r[1] for r in touching])
         oldest = min([fetched_at] + [r[2] for r in touching])
-        heads = [r[3] for r in touching if r[3]]
         db.execute("DELETE FROM coverage WHERE channel_id=? AND lo_id <= ? AND hi_id >= ?", reach)
-        if head_at is not None:
-            db.execute("UPDATE coverage SET head_at=NULL WHERE channel_id=?", (channel_id,))
+        if head_id is not None:
+            db.execute("UPDATE coverage SET head_at=NULL, head_id=NULL WHERE channel_id=?", (channel_id,))
+            head_at = fetched_at
         else:
-            head_at = max(heads) if heads else None
-        db.execute("INSERT INTO coverage (channel_id, lo_id, hi_id, oldest_fetched_at, head_at) VALUES (?,?,?,?,?)",
-                   (channel_id, new_lo, new_hi, oldest, head_at))
+            # a range that did not reach the newest message keeps the head it merged with, at the same id
+            kept = next(((r[3], r[4]) for r in touching if r[3]), (None, None))
+            head_at, head_id = kept
+        db.execute("INSERT INTO coverage (channel_id, lo_id, hi_id, oldest_fetched_at, head_at, head_id) VALUES (?,?,?,?,?,?)",
+                   (channel_id, new_lo, new_hi, oldest, head_at, head_id))
 
     # -- reads ------------------------------------------------------------------------------------
 
     def coverage(self, channel_id: int) -> list[Range]:
         return [Range(*r) for r in self.db.execute(
-            "SELECT lo_id, hi_id, oldest_fetched_at, head_at FROM coverage WHERE channel_id=? ORDER BY lo_id", (channel_id,))]
+            "SELECT lo_id, hi_id, oldest_fetched_at, head_at, head_id FROM coverage WHERE channel_id=? ORDER BY lo_id", (channel_id,))]
 
     def head(self, channel_id: int) -> Range | None:
-        r = self.db.execute("SELECT lo_id, hi_id, oldest_fetched_at, head_at FROM coverage WHERE channel_id=? AND head_at IS NOT NULL",
+        r = self.db.execute("SELECT lo_id, hi_id, oldest_fetched_at, head_at, head_id FROM coverage WHERE channel_id=? AND head_at IS NOT NULL",
                             (channel_id,)).fetchone()
         return Range(*r) if r else None
 

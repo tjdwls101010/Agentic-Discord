@@ -28,18 +28,17 @@ class Page:
 class Proof:
     lo: int
     hi: int
-    reaches_head: bool
 
 
-def prove(page: Page) -> tuple[Proof | None, bool]:
-    """The range `page` read through, or None when it proves none; and whether the walk reached the channel's newest message.
+def prove(page: Page) -> tuple[Proof | None, int | None]:
+    """The range `page` read through, or None when it proves none; and, when the walk reached the channel's newest message, the newest id it found (where `read --new` continues), else None.
 
-    The second value can be true with no range: an oldest-first page that came back empty proves nothing new is after `after`.
+    The second value can come with no range: an oldest-first page that came back empty proves nothing is newer than `after`, and returns `after`.
     """
     ids = [m.id for m in page.messages]
     short = len(page.received_ids) < page.requested
     if page.around:
-        return (Proof(min(ids), max(ids), False) if ids else None), False
+        return (Proof(min(ids), max(ids)) if ids else None), None
     if page.after is not None:
         crossed = page.before is not None and any(i >= page.before for i in page.received_ids)
         lo = page.after + 1
@@ -48,9 +47,12 @@ def prove(page: Page) -> tuple[Proof | None, bool]:
         elif ids:
             hi = max(ids)
         else:
-            return None, short and page.before is None
-        head = short and not crossed
-        return (Proof(lo, hi, head) if lo <= hi else None), head
+            return None, (page.after if short and page.before is None else None)
+        if lo > hi:
+            return None, None
+        # Reached the end: the newest message found, or, with none found, the bottom of the range (nothing newer was there).
+        head = (max(ids) if ids else lo) if short and not crossed else None
+        return Proof(lo, hi), head
     # newest first: `before` is the cursor sent, or absent for the newest page
     lo = page.channel_id if short else (min(ids) if ids else None)
     if page.before is not None and page.before_is_past:
@@ -58,8 +60,7 @@ def prove(page: Page) -> tuple[Proof | None, bool]:
     elif ids:
         hi = max(ids)
     else:
-        return None, False
-    head = page.before is None and bool(ids)
+        return None, None
     if lo is None or lo > hi:
-        return None, False
-    return Proof(lo, hi, head), head
+        return None, None
+    return Proof(lo, hi), (max(ids) if page.before is None and ids else None)
