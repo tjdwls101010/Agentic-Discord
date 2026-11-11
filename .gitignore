@@ -17,3 +17,7 @@ __pycache__/
 
 # 로컬 세션 기록으로 향하는 심볼릭 링크 (기기 고유 절대경로)
 .claude/histories
+
+# 코덱스·클로드 작업자 실행 기록
+.codex-runs/
+.claude-runs/
