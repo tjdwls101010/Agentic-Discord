@@ -435,6 +435,28 @@ class TheSkillTree(unittest.TestCase):
         self.assertIn("# dependencies = []", head)
 
 
+INVOCATION = 'uv run "${CLAUDE_SKILL_DIR}/scripts/cli.py"'
+QUERY = 'sqlite3 -readonly "${CLAUDE_SKILL_DIR}/data/discord.db"'
+
+
+class TheSkillText(unittest.TestCase):
+    """Pre-approval matches the command text, so the rules and every call the skill shows are spelled alike."""
+
+    def test_allowed_tools_name_the_cli_and_the_read_only_archive(self) -> None:
+        text = (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8")
+        front = text.split("---", 2)[1]
+        allowed = next(line for line in front.splitlines() if line.startswith("allowed-tools:"))
+        self.assertEqual(allowed, f"allowed-tools: Bash({INVOCATION} *), Bash({QUERY} *)")
+
+    def test_every_call_shown_is_spelled_like_its_rule(self) -> None:
+        text = (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8")
+        blocks = text.split("```")[1::2]
+        lines = [line.strip() for block in blocks for line in block.splitlines()]
+        calls = [line for line in lines if "cli.py" in line or line.startswith("sqlite3")]
+        self.assertTrue(calls)
+        self.assertEqual([c for c in calls if not (c.startswith(INVOCATION) or c.startswith(QUERY))], [])
+
+
 class TheTokenFile(unittest.TestCase):
     """The agreed exception: `scripts/.env` lives in the tree, so git must never be able to take it."""
 
