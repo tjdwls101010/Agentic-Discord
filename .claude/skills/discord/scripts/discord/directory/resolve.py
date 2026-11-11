@@ -28,12 +28,10 @@ def resolve_server(api, db, arg: str) -> tuple[int, str]:
         return sid, db.server_name(sid) or str(sid)
     if arg.isdigit():
         return int(arg), db.server_name(int(arg)) or arg
+    now = archive.now()
+    for s in api.servers():   # fresh every time, for the same reason as in resolve_target
+        db.save_server(s, now)
     found = db.find_servers(arg)
-    if not found:
-        now = archive.now()
-        for s in api.servers():
-            db.save_server(s, now)
-        found = db.find_servers(arg)
     if len(found) == 1:
         return found[0]
     if not found:
@@ -109,13 +107,12 @@ def resolve_target(api, db, arg: str) -> tuple[str, int, str]:
     def pool():
         return ([("server", i, n) for i, n in db.find_servers(arg)]
                 + [("dm", r["id"], r["name"]) for r in db.find_channels(arg, dm=True)])
+    # Fresh lists every time: a server or DM the archive has not seen yet can make a known name ambiguous.
+    now = archive.now()
+    for s in api.servers():
+        db.save_server(s, now)
+    db.save_channels(api.dms(), now)
     found = pool()
-    if not found:
-        now = archive.now()
-        for s in api.servers():
-            db.save_server(s, now)
-        db.save_channels(api.dms(), now)
-        found = pool()
     if len(found) == 1:
         return found[0]
     if not found:
@@ -155,8 +152,9 @@ def name_channels(api, db, server_id: int | None, channel_ids: set[int]) -> None
     for cid in sorted(unnamed):
         try:
             db.save_channels([api.channel(cid)], archive.now())
-        except discord_api.HttpFailure:
-            pass
+        except discord_api.HttpFailure as e:
+            if e.status not in (403, 404):   # no access or gone: the transcript shows the id instead
+                raise
 
 
 def names_for(api, db, server_id: int | None, messages: list[Message], *, look_up: bool) -> transcript.Names:

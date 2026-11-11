@@ -39,6 +39,13 @@ class AmbiguousTargets(Case):
         for i in (a, b, dm):
             self.assertIn(str(i), out["message"])
 
+    def test_a_dm_the_archive_has_not_seen_still_counts_as_a_candidate(self) -> None:
+        w = self.world
+        w.guild("same")
+        self.cli("servers")
+        w.channel(None, type=1, recipients=[w.user("friend", "same")])
+        self.assertEqual(self.cli("search", "same", "--content", "x").returncode, 1)
+
     def test_one_server_and_one_dm_with_the_same_name_is_still_ambiguous(self) -> None:
         w = self.world
         w.guild("same")
@@ -83,12 +90,34 @@ class TokenStaysHidden(Case):
             r = self.cli(*args)
             self.assertNotIn(TOKEN, r.stdout + r.stderr)
 
+    def test_a_token_anywhere_in_a_response_is_never_printed_or_stored(self) -> None:
+        g = self.world.guild("g")
+        self.fake.script(r"/api/v9/users/@me/guilds", (403, {"message": "denied", "code": TOKEN}))
+        self.fake.script(rf"/api/v9/guilds/{g}", (200, {"id": str(g), "echo": TOKEN}))
+        runs = [self.cli("servers"), self.cli("get", f"guilds/{g}")]
+        printed = "".join(r.stdout + r.stderr for r in runs)
+        self.assertNotIn(TOKEN, printed)
+        result = printed.split("result: ")[1].split("\n")[0].strip()
+        self.assertNotIn(TOKEN, Path(result).read_text())
+
     def test_a_redirect_is_not_followed_with_the_token(self) -> None:
         with FakeDiscord(ToyWorld()) as elsewhere:
             self.fake.script(r"/api/v9/users/@me", (302, b"", {"Location": elsewhere.url + "/users/@me"}))
             r = self.cli("get", "users/@me")
             self.assertEqual(r.returncode, 1, r.stdout)
             self.assertEqual(elsewhere.requests, [])
+
+
+class NamingFailures(Case):
+    def test_a_failure_other_than_no_access_while_naming_hit_channels_is_reported(self) -> None:
+        w = self.world
+        g = w.guild("g")
+        ch = w.channel("general", guild=g)
+        thread = w.channel("t", guild=g, type=11, parent=ch)
+        w.post(thread, w.user("ana"), "word")
+        self.fake.script(rf"/api/v9/channels/{thread}", (302, b"", {"Location": "http://127.0.0.1:9/x"}))
+        r = self.cli("search", str(g), "--content", "word")
+        self.assertEqual(r.returncode, 1, r.stdout)
 
 
 class GetInline(Case):

@@ -102,7 +102,8 @@ class Http:
                     errors += 1
                     continue
                 raise HttpFailure(f"{shown}: network error after {errors + 1} attempts ({type(e).__name__})") from None
-            data = _json(body)
+            # One place for every path a response takes (errors, printed JSON, stored raw): a token echoed back never leaves here.
+            data = _json(body.replace(self._token.encode(), b"<token>"))
             if status == 200:
                 if data is _BAD:
                     raise HttpFailure(f"{shown}: Discord answered 200 with a body that is not JSON", status=200)
@@ -129,8 +130,6 @@ class Http:
                 errors += 1
                 continue
             message = data.get("message") if isinstance(data, dict) else None
-            if isinstance(message, str):
-                message = message.replace(self._token, "<token>")
             detail = f" ({message}, code {code})" if message else ""
             if status == 401:
                 raise HttpFailure(f"Discord rejected the token{detail}", status=401, code=code, kind="auth", fix=self._token_hint)
