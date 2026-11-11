@@ -104,7 +104,7 @@ def build_parser() -> Parser:
     q.add_argument("--content", help="words that must all appear (whole words).")
     q.add_argument("--from", dest="authors", action="append", metavar="USER", help="only messages by this user: an id, <@id>, or a name that matches exactly one person the archive has seen in this server. Repeatable.")
     q.add_argument("--mentions", action="append", metavar="USER", help="only messages mentioning this user (same forms as --from). Repeatable.")
-    q.add_argument("--in", dest="channels", action="append", metavar="CHANNEL", help="only in this channel or thread (an id, link, or a name in this server). Repeatable.")
+    q.add_argument("--in", dest="channels", action="append", metavar="CHANNEL", help="only in this channel or thread (an id, link, or a name in this server); a channel includes the messages of its threads. Repeatable.")
     q.add_argument("--has", action="append", choices=("link", "embed", "file", "image", "video", "sound", "sticker", "poll", "snapshot"),
                    help="only messages that have this (snapshot: a forwarded message). Repeatable; all must hold.")
     q.add_argument("--after", metavar="X", help=f"only messages after X: {TIME_FORMS}.")
