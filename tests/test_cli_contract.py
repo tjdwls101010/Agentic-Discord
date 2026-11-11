@@ -72,7 +72,7 @@ class FromElsewhere(unittest.TestCase):
         where = tempfile.mkdtemp()
         r = subprocess.run(["uv", "run", str(ENTRY), "--version"], capture_output=True, text=True, cwd=where, timeout=300)
         self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual(r.stdout.strip(), engine("discord").__version__)
+        self.assertEqual(r.stdout.strip(), cli.__version__)
 
 
 class NoTokenInOutput(unittest.TestCase):
