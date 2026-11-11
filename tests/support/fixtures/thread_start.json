@@ -1,0 +1,379 @@
+{
+ "path": "channels/1985940364984321658/messages",
+ "query": {
+  "limit": "5",
+  "after": "1985940364984321658"
+ },
+ "status": 200,
+ "body": [
+  {
+   "type": 0,
+   "content": "anon-1521",
+   "mentions": [],
+   "mention_roles": [],
+   "attachments": [],
+   "embeds": [],
+   "timestamp": "2030-01-02T03:44:00+00:00",
+   "edited_timestamp": null,
+   "flags": 0,
+   "components": [],
+   "id": "1985941874933761664",
+   "channel_id": "1985940364984321658",
+   "author": {
+    "id": "1985551301345280112",
+    "username": "anon-1522",
+    "avatar": null,
+    "discriminator": "anon-4",
+    "public_flags": 0,
+    "flags": 0,
+    "banner": null,
+    "accent_color": null,
+    "global_name": "anon-1523",
+    "avatar_decoration_data": null,
+    "collectibles": null,
+    "display_name_styles": null,
+    "banner_color": null,
+    "clan": null,
+    "primary_guild": null
+   },
+   "pinned": false,
+   "mention_everyone": false,
+   "tts": false,
+   "position": 3,
+   "reactions": [
+    {
+     "emoji": {
+      "id": null,
+      "name": "anon-1305"
+     },
+     "count": 1,
+     "count_details": {
+      "burst": 0,
+      "normal": 1
+     },
+     "burst_colors": [],
+     "me_burst": false,
+     "burst_me": false,
+     "me": false,
+     "burst_count": 0
+    }
+   ]
+  },
+  {
+   "type": 0,
+   "content": "anon-1524",
+   "mentions": [],
+   "mention_roles": [],
+   "attachments": [],
+   "embeds": [],
+   "timestamp": "2030-01-02T03:43:00+00:00",
+   "edited_timestamp": null,
+   "flags": 0,
+   "components": [],
+   "id": "1985941623275521663",
+   "channel_id": "1985940364984321658",
+   "author": {
+    "id": "1985555579535360129",
+    "username": "anon-1525",
+    "avatar": null,
+    "discriminator": "anon-4",
+    "public_flags": 0,
+    "flags": 0,
+    "banner": null,
+    "accent_color": null,
+    "global_name": "anon-1526",
+    "avatar_decoration_data": null,
+    "collectibles": null,
+    "display_name_styles": null,
+    "banner_color": null,
+    "clan": null,
+    "primary_guild": null
+   },
+   "pinned": false,
+   "mention_everyone": false,
+   "tts": false,
+   "position": 2,
+   "reactions": [
+    {
+     "emoji": {
+      "id": null,
+      "name": "anon-1305"
+     },
+     "count": 1,
+     "count_details": {
+      "burst": 0,
+      "normal": 1
+     },
+     "burst_colors": [],
+     "me_burst": false,
+     "burst_me": false,
+     "me": false,
+     "burst_count": 0
+    }
+   ]
+  },
+  {
+   "type": 0,
+   "content": "anon-1527",
+   "mentions": [],
+   "mention_roles": [],
+   "attachments": [],
+   "embeds": [],
+   "timestamp": "2030-01-02T03:42:00+00:00",
+   "edited_timestamp": null,
+   "flags": 0,
+   "components": [],
+   "id": "1985941371617281662",
+   "channel_id": "1985940364984321658",
+   "author": {
+    "id": "1985570427371520188",
+    "username": "anon-1309",
+    "avatar": null,
+    "discriminator": "anon-4",
+    "public_flags": 0,
+    "flags": 0,
+    "banner": null,
+    "accent_color": null,
+    "global_name": "anon-1310",
+    "avatar_decoration_data": null,
+    "collectibles": null,
+    "display_name_styles": null,
+    "banner_color": null,
+    "clan": null,
+    "primary_guild": null
+   },
+   "pinned": false,
+   "mention_everyone": false,
+   "tts": false,
+   "position": 1,
+   "reactions": [
+    {
+     "emoji": {
+      "id": null,
+      "name": "anon-1305"
+     },
+     "count": 1,
+     "count_details": {
+      "burst": 0,
+      "normal": 1
+     },
+     "burst_colors": [],
+     "me_burst": false,
+     "burst_me": false,
+     "me": false,
+     "burst_count": 0
+    }
+   ]
+  },
+  {
+   "type": 0,
+   "content": "anon-1528 <#1985585526865920248>",
+   "mentions": [],
+   "mention_roles": [],
+   "attachments": [],
+   "embeds": [],
+   "timestamp": "2030-01-02T03:40:00+00:00",
+   "edited_timestamp": null,
+   "flags": 0,
+   "components": [
+    {
+     "type": 1,
+     "id": 1,
+     "components": [
+      {
+       "type": 2,
+       "id": 2,
+       "custom_id": "anon-1529",
+       "style": 3,
+       "label": "anon-1530",
+       "emoji": {
+        "id": "1985647686451200495",
+        "name": "anon-1531"
+       }
+      },
+      {
+       "type": 2,
+       "id": 3,
+       "custom_id": "anon-1532",
+       "style": 1,
+       "label": "anon-1533",
+       "emoji": {
+        "id": "1985647938109440496",
+        "name": "anon-1534"
+       }
+      }
+     ]
+    }
+   ],
+   "id": "1985940868300801660",
+   "channel_id": "1985940364984321658",
+   "author": {
+    "id": "1985573698928640201",
+    "username": "anon-659",
+    "avatar": "anon-1535",
+    "discriminator": "anon-1536",
+    "public_flags": 65536,
+    "flags": 65536,
+    "bot": true,
+    "banner": null,
+    "accent_color": null,
+    "global_name": null,
+    "avatar_decoration_data": null,
+    "collectibles": null,
+    "display_name_styles": null,
+    "banner_color": null,
+    "clan": null,
+    "primary_guild": null
+   },
+   "pinned": false,
+   "mention_everyone": false,
+   "tts": false,
+   "position": 0
+  },
+  {
+   "type": 21,
+   "content": "",
+   "mentions": [
+    {
+     "id": "1985532175319040036",
+     "username": "anon-48",
+     "avatar": "anon-49",
+     "discriminator": "anon-4",
+     "public_flags": 64,
+     "flags": 64,
+     "banner": null,
+     "accent_color": null,
+     "global_name": "anon-50",
+     "avatar_decoration_data": null,
+     "collectibles": null,
+     "display_name_styles": null,
+     "banner_color": null,
+     "clan": {
+      "identity_guild_id": "1985582255308800235",
+      "identity_enabled": true,
+      "tag": "anon-10",
+      "badge": "anon-11"
+     },
+     "primary_guild": {
+      "identity_guild_id": "1985582255308800235",
+      "identity_enabled": true,
+      "tag": "anon-10",
+      "badge": "anon-11"
+     }
+    }
+   ],
+   "mention_roles": [],
+   "attachments": [],
+   "embeds": [],
+   "timestamp": "2030-01-02T03:39:00+00:00",
+   "edited_timestamp": null,
+   "flags": 0,
+   "components": [],
+   "id": "1985940616642561659",
+   "channel_id": "1985940364984321658",
+   "author": {
+    "id": "1985573698928640201",
+    "username": "anon-659",
+    "avatar": "anon-1535",
+    "discriminator": "anon-1536",
+    "public_flags": 65536,
+    "flags": 65536,
+    "bot": true,
+    "banner": null,
+    "accent_color": null,
+    "global_name": null,
+    "avatar_decoration_data": null,
+    "collectibles": null,
+    "display_name_styles": null,
+    "banner_color": null,
+    "clan": null,
+    "primary_guild": null
+   },
+   "pinned": false,
+   "mention_everyone": false,
+   "tts": false,
+   "message_reference": {
+    "type": 0,
+    "channel_id": "1985585526865920248",
+    "message_id": "1985940364984321658",
+    "guild_id": "1985582255308800235"
+   },
+   "position": 0,
+   "referenced_message": {
+    "type": 0,
+    "content": "anon-1319",
+    "mentions": [],
+    "mention_roles": [],
+    "attachments": [],
+    "embeds": [],
+    "timestamp": "2030-01-02T03:38:00+00:00",
+    "edited_timestamp": "2030-01-02T03:38:00+00:00",
+    "flags": 32,
+    "components": [],
+    "id": "1985940364984321658",
+    "channel_id": "1985585526865920248",
+    "author": {
+     "id": "1985532175319040036",
+     "username": "anon-48",
+     "avatar": "anon-49",
+     "discriminator": "anon-4",
+     "public_flags": 64,
+     "flags": 64,
+     "banner": null,
+     "accent_color": null,
+     "global_name": "anon-50",
+     "avatar_decoration_data": null,
+     "collectibles": null,
+     "display_name_styles": null,
+     "banner_color": null,
+     "clan": {
+      "identity_guild_id": "1985582255308800235",
+      "identity_enabled": true,
+      "tag": "anon-10",
+      "badge": "anon-11"
+     },
+     "primary_guild": {
+      "identity_guild_id": "1985582255308800235",
+      "identity_enabled": true,
+      "tag": "anon-10",
+      "badge": "anon-11"
+     }
+    },
+    "pinned": false,
+    "mention_everyone": false,
+    "tts": false,
+    "thread": {
+     "id": "1985940364984321658",
+     "type": 11,
+     "last_message_id": "1985952947896321708",
+     "flags": 0,
+     "guild_id": "1985582255308800235",
+     "name": "anon-1320",
+     "parent_id": "1985585526865920248",
+     "rate_limit_per_user": 0,
+     "bitrate": 64000,
+     "user_limit": 0,
+     "rtc_region": null,
+     "owner_id": "1985573698928640201",
+     "thread_metadata": {
+      "archived": false,
+      "archive_timestamp": "2030-01-02T03:38:00+00:00",
+      "auto_archive_duration": 1440,
+      "locked": false,
+      "create_timestamp": "2030-01-02T03:38:00+00:00"
+     },
+     "message_count": 34,
+     "member_count": 0,
+     "total_message_sent": 34,
+     "member_ids_preview": [
+      "1985573698928640201",
+      "1985551301345280112",
+      "1985532175319040036",
+      "1985570427371520188",
+      "1985555579535360129"
+     ]
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,5231 @@
+{
+ "path": "guilds/1985582255308800235",
+ "query": {
+  "with_counts": "true"
+ },
+ "status": 200,
+ "body": {
+  "id": "1985582255308800235",
+  "name": "anon-474",
+  "icon": "anon-475",
+  "description": "anon-476",
+  "home_header": "anon-477",
+  "splash": null,
+  "discovery_splash": null,
+  "features": [
+   "anon-478",
+   "anon-479",
+   "anon-480",
+   "anon-481",
+   "anon-482",
+   "anon-483",
+   "anon-484",
+   "anon-485",
+   "anon-486",
+   "anon-487",
+   "anon-488",
+   "anon-489",
+   "anon-490",
+   "anon-491",
+   "anon-492",
+   "anon-493",
+   "anon-494",
+   "anon-495",
+   "anon-496",
+   "anon-497"
+  ],
+  "banner": null,
+  "owner_id": "1985532175319040036",
+  "application_id": null,
+  "region": "anon-498",
+  "afk_channel_id": null,
+  "afk_timeout": 300,
+  "system_channel_id": "1985582758625280237",
+  "system_channel_flags": 8,
+  "widget_enabled": false,
+  "widget_channel_id": null,
+  "verification_level": 2,
+  "verification_role_id": null,
+  "roles": [
+   {
+    "id": "1985582255308800235",
+    "name": "anon-112",
+    "description": null,
+    "permissions": "2222085186637377",
+    "position": 0,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985583010283520238",
+    "name": "anon-499",
+    "description": null,
+    "permissions": "9868865424961",
+    "position": 234,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985583261941760239",
+    "name": "anon-500",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 211,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985583513600000240",
+    "name": "anon-501",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 207,
+    "color": 3447003,
+    "colors": {
+     "primary_color": 3447003,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985588295106560259",
+    "name": "anon-502",
+    "description": null,
+    "permissions": "26933710552831",
+    "position": 246,
+    "color": 15105570,
+    "colors": {
+     "primary_color": 15105570,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": true,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985590560030720268",
+    "name": "anon-503",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 206,
+    "color": 6152374,
+    "colors": {
+     "primary_color": 6152374,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985590811688960269",
+    "name": "anon-504",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 205,
+    "color": 6152374,
+    "colors": {
+     "primary_color": 6152374,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985591063347200270",
+    "name": "anon-505",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 204,
+    "color": 6152374,
+    "colors": {
+     "primary_color": 6152374,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985591315005440271",
+    "name": "anon-506",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 203,
+    "color": 6152374,
+    "colors": {
+     "primary_color": 6152374,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985595844853760289",
+    "name": "anon-507",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 119,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985596096512000290",
+    "name": "anon-508",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 118,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985596348170240291",
+    "name": "anon-509",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 117,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985596599828480292",
+    "name": "anon-510",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 116,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985596851486720293",
+    "name": "anon-511",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 115,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985597103144960294",
+    "name": "anon-512",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 114,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985597354803200295",
+    "name": "anon-513",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 113,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985597606461440296",
+    "name": "anon-514",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 112,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985597858119680297",
+    "name": "anon-515",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 111,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985598109777920298",
+    "name": "anon-516",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 110,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985598361436160299",
+    "name": "anon-517",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 109,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985598613094400300",
+    "name": "anon-518",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 108,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985598864752640301",
+    "name": "anon-519",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 107,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985599116410880302",
+    "name": "anon-520",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 105,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985599368069120303",
+    "name": "anon-521",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 106,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985599619727360304",
+    "name": "anon-522",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 104,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985599871385600305",
+    "name": "anon-523",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 103,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985600123043840306",
+    "name": "anon-524",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 102,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985600374702080307",
+    "name": "anon-525",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 100,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985600626360320308",
+    "name": "anon-526",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 98,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985600878018560309",
+    "name": "anon-527",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 97,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985601129676800310",
+    "name": "anon-528",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 219,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985601381335040311",
+    "name": "anon-529",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 96,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985601632993280312",
+    "name": "anon-530",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 95,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985601884651520313",
+    "name": "anon-531",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 94,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985608679424000340",
+    "name": "anon-532",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 93,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985609182740480342",
+    "name": "anon-533",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 101,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985610189373440346",
+    "name": "anon-534",
+    "description": null,
+    "permissions": "1071698660929",
+    "position": 220,
+    "color": 15158332,
+    "colors": {
+     "primary_color": 15158332,
+     "secondary_color": 15698816,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": "anon-535",
+    "unicode_emoji": null,
+    "tags": {
+     "premium_subscriber": null
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985614719221760364",
+    "name": "anon-536",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 99,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985615474196480367",
+    "name": "anon-537",
+    "description": null,
+    "permissions": "269601881",
+    "position": 87,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985546771496960094"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985617487462400375",
+    "name": "anon-538",
+    "description": null,
+    "permissions": "397620538432",
+    "position": 89,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985552811294720118"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985626547159040411",
+    "name": "anon-539",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 92,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985633593589760439",
+    "name": "anon-540",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 221,
+    "color": 15105570,
+    "colors": {
+     "primary_color": 15105570,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985634600222720443",
+    "name": "anon-541",
+    "description": null,
+    "permissions": "27486972276295",
+    "position": 245,
+    "color": 15105570,
+    "colors": {
+     "primary_color": 15105570,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": true,
+    "managed": false,
+    "mentionable": false,
+    "icon": "anon-542",
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985642904944640476",
+    "name": "anon-543",
+    "description": null,
+    "permissions": "1100824",
+    "position": 88,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985544506572800085"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985643659919360479",
+    "name": "anon-544",
+    "description": null,
+    "permissions": "1071644143425",
+    "position": 235,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985644666552320483",
+    "name": "anon-545",
+    "description": null,
+    "permissions": "1071862771649",
+    "position": 230,
+    "color": 13787625,
+    "colors": {
+     "primary_color": 13787625,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985651712983040511",
+    "name": "anon-546",
+    "description": null,
+    "permissions": "536870912",
+    "position": 90,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985570930688000190"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985659262730240541",
+    "name": "anon-547",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 227,
+    "color": 15158332,
+    "colors": {
+     "primary_color": 15158332,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": "anon-535",
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985660017704960544",
+    "name": "anon-548",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 212,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985668070768640576",
+    "name": "anon-549",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 144,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985668322426880577",
+    "name": "anon-550",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 143,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985668574085120578",
+    "name": "anon-551",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 142,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985668825743360579",
+    "name": "anon-552",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 140,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985669077401600580",
+    "name": "anon-553",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 139,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985669329059840581",
+    "name": "anon-554",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 138,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985669580718080582",
+    "name": "anon-555",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 137,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985669832376320583",
+    "name": "anon-556",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 129,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985670084034560584",
+    "name": "anon-557",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 136,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985670335692800585",
+    "name": "anon-558",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 135,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985670587351040586",
+    "name": "anon-559",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 134,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985670839009280587",
+    "name": "anon-560",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 133,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985671090667520588",
+    "name": "anon-561",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 132,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985671342325760589",
+    "name": "anon-562",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 131,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985671593984000590",
+    "name": "anon-563",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 130,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985671845642240591",
+    "name": "anon-564",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 128,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985672097300480592",
+    "name": "anon-565",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 126,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985672348958720593",
+    "name": "anon-566",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 125,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985672600616960594",
+    "name": "anon-567",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 124,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985672852275200595",
+    "name": "anon-568",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 123,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985673103933440596",
+    "name": "anon-569",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 122,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985673355591680597",
+    "name": "anon-570",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 121,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985673607249920598",
+    "name": "anon-571",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 120,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985673858908160599",
+    "name": "anon-572",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 189,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985674110566400600",
+    "name": "anon-573",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 188,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985674362224640601",
+    "name": "anon-574",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 184,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985674613882880602",
+    "name": "anon-575",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 201,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985674865541120603",
+    "name": "anon-576",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 127,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985675117199360604",
+    "name": "anon-577",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 141,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985675368857600605",
+    "name": "anon-578",
+    "description": null,
+    "permissions": "9092243909727",
+    "position": 249,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985524122255360004"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985675620515840606",
+    "name": "anon-579",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 91,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985677382123520613",
+    "name": "anon-580",
+    "description": null,
+    "permissions": "2147617856",
+    "position": 86,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985677130465280612"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985685183528960644",
+    "name": "anon-581",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 210,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985685686845440646",
+    "name": "anon-582",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 222,
+    "color": 15105570,
+    "colors": {
+     "primary_color": 15105570,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985690971668480667",
+    "name": "anon-583",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 156,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985691223326720668",
+    "name": "anon-584",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 236,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985691978301440671",
+    "name": "anon-585",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 146,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985692229959680672",
+    "name": "anon-586",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 213,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985692481617920673",
+    "name": "anon-587",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 147,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985692733276160674",
+    "name": "anon-588",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 233,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985692984934400675",
+    "name": "anon-589",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 232,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985693236592640676",
+    "name": "anon-590",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 231,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985696759808000690",
+    "name": "anon-591",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 209,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985697011466240691",
+    "name": "anon-592",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 208,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985697263124480692",
+    "name": "anon-593",
+    "description": null,
+    "permissions": "1071698529857",
+    "position": 244,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": "anon-542",
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985699276390400700",
+    "name": "anon-594",
+    "description": null,
+    "permissions": "18432",
+    "position": 85,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985525883863040011"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985699528048640701",
+    "name": "anon-595",
+    "description": null,
+    "permissions": "0",
+    "position": 226,
+    "color": 15158332,
+    "colors": {
+     "primary_color": 15158332,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": "anon-535",
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985706826137600730",
+    "name": "anon-596",
+    "description": null,
+    "permissions": "9092243909855",
+    "position": 247,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985706574479360729"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985707329454080732",
+    "name": "anon-597",
+    "description": null,
+    "permissions": "2147601472",
+    "position": 84,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985581751992320233"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985708336087040736",
+    "name": "anon-598",
+    "description": null,
+    "permissions": "10310055718079",
+    "position": 248,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985523870597120003"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985708587745280737",
+    "name": "anon-599",
+    "description": null,
+    "permissions": "0",
+    "position": 83,
+    "color": 10038562,
+    "colors": {
+     "primary_color": 10038562,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": true,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985710852669440746",
+    "name": "anon-600",
+    "description": null,
+    "permissions": "1024",
+    "position": 82,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985710601011200745"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985713872568320758",
+    "name": "anon-601",
+    "description": null,
+    "permissions": "0",
+    "position": 145,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985714124226560759",
+    "name": "anon-602",
+    "description": null,
+    "permissions": "0",
+    "position": 148,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985714375884800760",
+    "name": "anon-603",
+    "description": null,
+    "permissions": "0",
+    "position": 149,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985714627543040761",
+    "name": "anon-604",
+    "description": null,
+    "permissions": "0",
+    "position": 150,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985714879201280762",
+    "name": "anon-605",
+    "description": null,
+    "permissions": "0",
+    "position": 151,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985715130859520763",
+    "name": "anon-606",
+    "description": null,
+    "permissions": "0",
+    "position": 152,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985715382517760764",
+    "name": "anon-607",
+    "description": null,
+    "permissions": "0",
+    "position": 153,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985715634176000765",
+    "name": "anon-608",
+    "description": null,
+    "permissions": "0",
+    "position": 154,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985715885834240766",
+    "name": "anon-609",
+    "description": null,
+    "permissions": "0",
+    "position": 155,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985716137492480767",
+    "name": "anon-610",
+    "description": null,
+    "permissions": "0",
+    "position": 186,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985716389150720768",
+    "name": "anon-611",
+    "description": null,
+    "permissions": "0",
+    "position": 185,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985716640808960769",
+    "name": "anon-612",
+    "description": null,
+    "permissions": "0",
+    "position": 187,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985716892467200770",
+    "name": "anon-613",
+    "description": null,
+    "permissions": "0",
+    "position": 190,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985717144125440771",
+    "name": "anon-614",
+    "description": null,
+    "permissions": "0",
+    "position": 191,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985717395783680772",
+    "name": "anon-615",
+    "description": null,
+    "permissions": "0",
+    "position": 193,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985723435581440796",
+    "name": "anon-616",
+    "description": null,
+    "permissions": "0",
+    "position": 30,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985728468746240816",
+    "name": "anon-617",
+    "description": null,
+    "permissions": "0",
+    "position": 237,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985729223720960819",
+    "name": "anon-618",
+    "description": null,
+    "permissions": "111022861307457",
+    "position": 29,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985729475379200820",
+    "name": "anon-619",
+    "description": null,
+    "permissions": "0",
+    "position": 223,
+    "color": 15105570,
+    "colors": {
+     "primary_color": 15105570,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985730985328640826",
+    "name": "anon-620",
+    "description": null,
+    "permissions": "0",
+    "position": 174,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985732243619840831",
+    "name": "anon-621",
+    "description": null,
+    "permissions": "0",
+    "position": 161,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985732495278080832",
+    "name": "anon-622",
+    "description": null,
+    "permissions": "0",
+    "position": 172,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985732746936320833",
+    "name": "anon-623",
+    "description": null,
+    "permissions": "0",
+    "position": 164,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985732998594560834",
+    "name": "anon-624",
+    "description": null,
+    "permissions": "0",
+    "position": 192,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985734005227520838",
+    "name": "anon-625",
+    "description": null,
+    "permissions": "0",
+    "position": 214,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985734256885760839",
+    "name": "anon-626",
+    "description": null,
+    "permissions": "0",
+    "position": 162,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985735766835200845",
+    "name": "anon-627",
+    "description": null,
+    "permissions": "0",
+    "position": 25,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985738786734080857",
+    "name": "anon-628",
+    "description": null,
+    "permissions": "0",
+    "position": 28,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985739038392320858",
+    "name": "anon-629",
+    "description": null,
+    "permissions": "0",
+    "position": 27,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985739290050560859",
+    "name": "anon-630",
+    "description": null,
+    "permissions": "0",
+    "position": 26,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985739541708800860",
+    "name": "anon-631",
+    "description": null,
+    "permissions": "0",
+    "position": 24,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985739793367040861",
+    "name": "anon-632",
+    "description": null,
+    "permissions": "0",
+    "position": 23,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985744071557120878",
+    "name": "anon-633",
+    "description": null,
+    "permissions": "0",
+    "position": 178,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985747846430720893",
+    "name": "anon-634",
+    "description": null,
+    "permissions": "0",
+    "position": 179,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985748098088960894",
+    "name": "anon-635",
+    "description": null,
+    "permissions": "0",
+    "position": 176,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985748349747200895",
+    "name": "anon-636",
+    "description": null,
+    "permissions": "0",
+    "position": 175,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985748601405440896",
+    "name": "anon-637",
+    "description": null,
+    "permissions": "0",
+    "position": 173,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985748853063680897",
+    "name": "anon-638",
+    "description": null,
+    "permissions": "0",
+    "position": 171,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985749104721920898",
+    "name": "anon-639",
+    "description": null,
+    "permissions": "0",
+    "position": 169,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985749356380160899",
+    "name": "anon-640",
+    "description": null,
+    "permissions": "0",
+    "position": 167,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985749608038400900",
+    "name": "anon-641",
+    "description": null,
+    "permissions": "0",
+    "position": 166,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985749859696640901",
+    "name": "anon-642",
+    "description": null,
+    "permissions": "0",
+    "position": 165,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985750111354880902",
+    "name": "anon-643",
+    "description": null,
+    "permissions": "0",
+    "position": 160,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985750363013120903",
+    "name": "anon-644",
+    "description": null,
+    "permissions": "0",
+    "position": 177,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985750614671360904",
+    "name": "anon-645",
+    "description": null,
+    "permissions": "0",
+    "position": 159,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985750866329600905",
+    "name": "anon-646",
+    "description": null,
+    "permissions": "0",
+    "position": 158,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985751117987840906",
+    "name": "anon-647",
+    "description": null,
+    "permissions": "0",
+    "position": 157,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985751369646080907",
+    "name": "anon-648",
+    "description": null,
+    "permissions": "0",
+    "position": 163,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985751621304320908",
+    "name": "anon-649",
+    "description": null,
+    "permissions": "0",
+    "position": 200,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985751872962560909",
+    "name": "anon-650",
+    "description": null,
+    "permissions": "0",
+    "position": 199,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985752124620800910",
+    "name": "anon-651",
+    "description": null,
+    "permissions": "0",
+    "position": 202,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985752376279040911",
+    "name": "anon-652",
+    "description": null,
+    "permissions": "0",
+    "position": 196,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985752627937280912",
+    "name": "anon-653",
+    "description": null,
+    "permissions": "0",
+    "position": 198,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985752879595520913",
+    "name": "anon-654",
+    "description": null,
+    "permissions": "0",
+    "position": 197,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985755144519680922",
+    "name": "anon-655",
+    "description": null,
+    "permissions": "0",
+    "position": 194,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985755396177920923",
+    "name": "anon-656",
+    "description": null,
+    "permissions": "0",
+    "position": 195,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985756906127360929",
+    "name": "anon-657",
+    "description": null,
+    "permissions": "0",
+    "position": 168,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985757409443840931",
+    "name": "anon-658",
+    "description": null,
+    "permissions": "0",
+    "position": 21,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985758667735040936",
+    "name": "anon-659",
+    "description": null,
+    "permissions": "309237713920",
+    "position": 80,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985573698928640201"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985762945925120953",
+    "name": "anon-660",
+    "description": null,
+    "permissions": "0",
+    "position": 170,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985770747330560984",
+    "name": "anon-661",
+    "description": null,
+    "permissions": "0",
+    "position": 224,
+    "color": 15105570,
+    "colors": {
+     "primary_color": 15105570,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985775528837121003",
+    "name": "anon-662",
+    "description": null,
+    "permissions": "0",
+    "position": 215,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985775780495361004",
+    "name": "anon-663",
+    "description": null,
+    "permissions": "0",
+    "position": 183,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985776032153601005",
+    "name": "anon-664",
+    "description": null,
+    "permissions": "0",
+    "position": 238,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985776535470081007",
+    "name": "anon-665",
+    "description": null,
+    "permissions": "0",
+    "position": 180,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985776787128321008",
+    "name": "anon-666",
+    "description": null,
+    "permissions": "0",
+    "position": 182,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985777038786561009",
+    "name": "anon-667",
+    "description": null,
+    "permissions": "0",
+    "position": 181,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985780813660161024",
+    "name": "anon-668",
+    "description": null,
+    "permissions": "0",
+    "position": 19,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985781065318401025",
+    "name": "anon-669",
+    "description": null,
+    "permissions": "0",
+    "position": 18,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985781316976641026",
+    "name": "anon-670",
+    "description": null,
+    "permissions": "0",
+    "position": 17,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985781568634881027",
+    "name": "anon-671",
+    "description": null,
+    "permissions": "0",
+    "position": 16,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985781820293121028",
+    "name": "anon-672",
+    "description": null,
+    "permissions": "0",
+    "position": 15,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985782071951361029",
+    "name": "anon-673",
+    "description": null,
+    "permissions": "0",
+    "position": 12,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985782323609601030",
+    "name": "anon-674",
+    "description": null,
+    "permissions": "0",
+    "position": 13,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985785091850241041",
+    "name": "anon-675",
+    "description": null,
+    "permissions": "449428442176",
+    "position": 79,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985563129282560159"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985786350141441046",
+    "name": "anon-676",
+    "description": null,
+    "permissions": "60480",
+    "position": 81,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985567659130880177"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985786853457921048",
+    "name": "anon-677",
+    "description": null,
+    "permissions": "1",
+    "position": 78,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985779303710721018"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985787356774401050",
+    "name": "anon-678",
+    "description": null,
+    "permissions": "0",
+    "position": 77,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985787608432641051",
+    "name": "anon-679",
+    "description": null,
+    "permissions": "0",
+    "position": 76,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985787860090881052",
+    "name": "anon-680",
+    "description": null,
+    "permissions": "0",
+    "position": 75,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985788111749121053",
+    "name": "anon-681",
+    "description": null,
+    "permissions": "0",
+    "position": 74,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985788363407361054",
+    "name": "anon-682",
+    "description": null,
+    "permissions": "0",
+    "position": 73,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985788615065601055",
+    "name": "anon-683",
+    "description": null,
+    "permissions": "0",
+    "position": 72,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985788866723841056",
+    "name": "anon-684",
+    "description": null,
+    "permissions": "0",
+    "position": 71,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985789118382081057",
+    "name": "anon-665",
+    "description": null,
+    "permissions": "0",
+    "position": 70,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985789370040321058",
+    "name": "anon-685",
+    "description": null,
+    "permissions": "0",
+    "position": 69,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985789621698561059",
+    "name": "anon-686",
+    "description": null,
+    "permissions": "0",
+    "position": 68,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985789873356801060",
+    "name": "anon-687",
+    "description": null,
+    "permissions": "0",
+    "position": 67,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985790125015041061",
+    "name": "anon-688",
+    "description": null,
+    "permissions": "0",
+    "position": 66,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985790376673281062",
+    "name": "anon-689",
+    "description": null,
+    "permissions": "0",
+    "position": 65,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985790628331521063",
+    "name": "anon-690",
+    "description": null,
+    "permissions": "0",
+    "position": 64,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985790879989761064",
+    "name": "anon-691",
+    "description": null,
+    "permissions": "0",
+    "position": 63,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985791131648001065",
+    "name": "anon-692",
+    "description": null,
+    "permissions": "0",
+    "position": 62,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985791383306241066",
+    "name": "anon-693",
+    "description": null,
+    "permissions": "0",
+    "position": 61,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985791634964481067",
+    "name": "anon-694",
+    "description": null,
+    "permissions": "0",
+    "position": 60,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985791886622721068",
+    "name": "anon-695",
+    "description": null,
+    "permissions": "0",
+    "position": 59,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985792138280961069",
+    "name": "anon-696",
+    "description": null,
+    "permissions": "0",
+    "position": 58,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985792389939201070",
+    "name": "anon-697",
+    "description": null,
+    "permissions": "0",
+    "position": 57,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985792641597441071",
+    "name": "anon-698",
+    "description": null,
+    "permissions": "0",
+    "position": 55,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985792893255681072",
+    "name": "anon-699",
+    "description": null,
+    "permissions": "0",
+    "position": 56,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985793144913921073",
+    "name": "anon-700",
+    "description": null,
+    "permissions": "0",
+    "position": 54,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985793396572161074",
+    "name": "anon-701",
+    "description": null,
+    "permissions": "0",
+    "position": 53,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985793648230401075",
+    "name": "anon-702",
+    "description": null,
+    "permissions": "0",
+    "position": 52,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985793899888641076",
+    "name": "anon-703",
+    "description": null,
+    "permissions": "0",
+    "position": 51,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985794151546881077",
+    "name": "anon-704",
+    "description": null,
+    "permissions": "0",
+    "position": 50,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985801197977601105",
+    "name": "anon-705",
+    "description": null,
+    "permissions": "0",
+    "position": 7,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985808999383041136",
+    "name": "anon-706",
+    "description": null,
+    "permissions": "0",
+    "position": 49,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985812270940161149",
+    "name": "anon-707",
+    "description": null,
+    "permissions": "0",
+    "position": 48,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985813025914881152",
+    "name": "anon-708",
+    "description": null,
+    "permissions": "0",
+    "position": 225,
+    "color": 15105570,
+    "colors": {
+     "primary_color": 15105570,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985815794155521163",
+    "name": "anon-709",
+    "description": null,
+    "permissions": "0",
+    "position": 239,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985816297472001165",
+    "name": "anon-710",
+    "description": null,
+    "permissions": "0",
+    "position": 47,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985819065712641176",
+    "name": "anon-711",
+    "description": null,
+    "permissions": "0",
+    "position": 11,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985820072345601180",
+    "name": "anon-712",
+    "description": null,
+    "permissions": "0",
+    "position": 46,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985820324003841181",
+    "name": "anon-713",
+    "description": null,
+    "permissions": "0",
+    "position": 45,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985820575662081182",
+    "name": "anon-714",
+    "description": null,
+    "permissions": "0",
+    "position": 44,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985820827320321183",
+    "name": "anon-715",
+    "description": null,
+    "permissions": "0",
+    "position": 43,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985821078978561184",
+    "name": "anon-716",
+    "description": null,
+    "permissions": "0",
+    "position": 42,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985821330636801185",
+    "name": "anon-717",
+    "description": null,
+    "permissions": "0",
+    "position": 41,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985821582295041186",
+    "name": "anon-718",
+    "description": null,
+    "permissions": "0",
+    "position": 40,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985821833953281187",
+    "name": "anon-719",
+    "description": null,
+    "permissions": "0",
+    "position": 39,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985822085611521188",
+    "name": "anon-720",
+    "description": null,
+    "permissions": "0",
+    "position": 38,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985822337269761189",
+    "name": "anon-721",
+    "description": null,
+    "permissions": "0",
+    "position": 37,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985822588928001190",
+    "name": "anon-722",
+    "description": null,
+    "permissions": "0",
+    "position": 36,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985822840586241191",
+    "name": "anon-723",
+    "description": null,
+    "permissions": "0",
+    "position": 35,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985823092244481192",
+    "name": "anon-724",
+    "description": null,
+    "permissions": "0",
+    "position": 34,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985823343902721193",
+    "name": "anon-725",
+    "description": null,
+    "permissions": "0",
+    "position": 33,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985827370434561209",
+    "name": "anon-726",
+    "description": null,
+    "permissions": "0",
+    "position": 216,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985827873751041211",
+    "name": "anon-727",
+    "description": null,
+    "permissions": "0",
+    "position": 31,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985828125409281212",
+    "name": "anon-728",
+    "description": null,
+    "permissions": "0",
+    "position": 240,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985830138675201220",
+    "name": "anon-729",
+    "description": null,
+    "permissions": "0",
+    "position": 32,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985847251435521288",
+    "name": "anon-730",
+    "description": null,
+    "permissions": "0",
+    "position": 6,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985847503093761289",
+    "name": "anon-731",
+    "description": null,
+    "permissions": "0",
+    "position": 5,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985847754752001290",
+    "name": "anon-732",
+    "description": null,
+    "permissions": "0",
+    "position": 4,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985848006410241291",
+    "name": "anon-733",
+    "description": null,
+    "permissions": "0",
+    "position": 3,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985848258068481292",
+    "name": "anon-734",
+    "description": null,
+    "permissions": "0",
+    "position": 20,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985848509726721293",
+    "name": "anon-735",
+    "description": null,
+    "permissions": "0",
+    "position": 10,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985848761384961294",
+    "name": "anon-736",
+    "description": null,
+    "permissions": "0",
+    "position": 9,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985849013043201295",
+    "name": "anon-737",
+    "description": null,
+    "permissions": "0",
+    "position": 8,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985849264701441296",
+    "name": "anon-738",
+    "description": null,
+    "permissions": "0",
+    "position": 22,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985849516359681297",
+    "name": "anon-739",
+    "description": null,
+    "permissions": "0",
+    "position": 14,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985850019676161299",
+    "name": "anon-740",
+    "description": null,
+    "permissions": "0",
+    "position": 2,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985854297866241316",
+    "name": "anon-741",
+    "description": null,
+    "permissions": "1720707884371521",
+    "position": 1,
+    "color": 3066993,
+    "colors": {
+     "primary_color": 3066993,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985862602588161349",
+    "name": "anon-742",
+    "description": null,
+    "permissions": "0",
+    "position": 241,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985870152335361379",
+    "name": "anon-743",
+    "description": null,
+    "permissions": "0",
+    "position": 217,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   },
+   {
+    "id": "1985872165601281387",
+    "name": "anon-744",
+    "description": null,
+    "permissions": "2416004096",
+    "position": 228,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985871913943041386"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985880973639681422",
+    "name": "anon-745",
+    "description": null,
+    "permissions": "0",
+    "position": 242,
+    "color": 10181046,
+    "colors": {
+     "primary_color": 10181046,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": true,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": "anon-169",
+    "flags": 0
+   },
+   {
+    "id": "1985883238563841431",
+    "name": "anon-746",
+    "description": null,
+    "permissions": "0",
+    "position": 218,
+    "color": 2067276,
+    "colors": {
+     "primary_color": 2067276,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": "anon-747",
+    "flags": 0
+   },
+   {
+    "id": "1985894311526401475",
+    "name": "anon-748",
+    "description": null,
+    "permissions": "8",
+    "position": 229,
+    "color": 0,
+    "colors": {
+     "primary_color": 0,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": true,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "tags": {
+     "bot_id": "1985894059868161474"
+    },
+    "flags": 0
+   },
+   {
+    "id": "1985913940869121553",
+    "name": "anon-749",
+    "description": null,
+    "permissions": "0",
+    "position": 243,
+    "color": 13787625,
+    "colors": {
+     "primary_color": 13787625,
+     "secondary_color": null,
+     "tertiary_color": null
+    },
+    "hoist": false,
+    "managed": false,
+    "mentionable": false,
+    "icon": null,
+    "unicode_emoji": null,
+    "flags": 0
+   }
+  ],
+  "default_message_notifications": 1,
+  "mfa_level": 1,
+  "explicit_content_filter": 2,
+  "max_presences": null,
+  "max_members": 0,
+  "max_stage_video_channel_users": 50,
+  "max_video_channel_users": 25,
+  "vanity_url_code": null,
+  "premium_tier": 1,
+  "premium_subscription_count": 0,
+  "preferred_locale": "ko",
+  "rules_channel_id": "1985593076613120278",
+  "safety_alerts_channel_id": "1985586785157120253",
+  "public_updates_channel_id": "1985586785157120253",
+  "hub_type": null,
+  "premium_progress_bar_enabled": true,
+  "premium_progress_bar_enabled_user_updated_at": null,
+  "latest_onboarding_question_id": "1985724693872640801",
+  "nsfw": false,
+  "nsfw_level": 0,
+  "owner_configured_content_level": 0,
+  "emojis": [
+   {
+    "id": "1985615977512960369",
+    "name": "anon-750",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985616229171200370",
+    "name": "anon-751",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985616480829440371",
+    "name": "anon-752",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985616732487680372",
+    "name": "anon-753",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985616984145920373",
+    "name": "anon-754",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985617235804160374",
+    "name": "anon-755",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985618745753600380",
+    "name": "anon-756",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985618997411840381",
+    "name": "anon-757",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985619249070080382",
+    "name": "anon-758",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985620004044800385",
+    "name": "anon-759",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985620255703040386",
+    "name": "anon-760",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985620507361280387",
+    "name": "anon-761",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985620759019520388",
+    "name": "anon-762",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985621010677760389",
+    "name": "anon-763",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985621262336000390",
+    "name": "anon-105",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985621513994240391",
+    "name": "anon-145",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985621765652480392",
+    "name": "anon-764",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985622017310720393",
+    "name": "anon-765",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985622268968960394",
+    "name": "anon-766",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985622520627200395",
+    "name": "anon-767",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985622772285440396",
+    "name": "anon-768",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985707581112320733",
+    "name": "anon-769",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985707832770560734",
+    "name": "anon-770",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985708084428800735",
+    "name": "anon-771",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985738283417600855",
+    "name": "anon-772",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985754892861440921",
+    "name": "anon-204",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985759171051520938",
+    "name": "anon-156",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985759422709760939",
+    "name": "anon-773",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985759674368000940",
+    "name": "anon-191",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985784840192001040",
+    "name": "anon-774",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985861092638721343",
+    "name": "anon-775",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985861344296961344",
+    "name": "anon-240",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985861595955201345",
+    "name": "anon-776",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985861847613441346",
+    "name": "anon-777",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985862099271681347",
+    "name": "anon-778",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   },
+   {
+    "id": "1985914192527361554",
+    "name": "anon-779",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985914444185601555",
+    "name": "anon-780",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": true,
+    "available": true
+   },
+   {
+    "id": "1985914695843841556",
+    "name": "anon-781",
+    "roles": [],
+    "require_colons": true,
+    "managed": false,
+    "animated": false,
+    "available": true
+   }
+  ],
+  "stickers": [],
+  "incidents_data": null,
+  "inventory_settings": null,
+  "official_message_color": null,
+  "theme": null,
+  "linked_game_organization": null,
+  "embed_enabled": false,
+  "embed_channel_id": null,
+  "approximate_member_count": 0,
+  "approximate_presence_count": 0
+ }
+}

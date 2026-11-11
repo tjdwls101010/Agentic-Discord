@@ -1,0 +1,44 @@
+{
+ "path": "users/@me/guilds/1985582255308800235/member",
+ "query": {},
+ "status": 200,
+ "body": {
+  "avatar": null,
+  "banner": null,
+  "communication_disabled_until": null,
+  "flags": 0,
+  "joined_at": "2030-01-01T00:00:00+00:00",
+  "nick": null,
+  "pending": false,
+  "premium_since": null,
+  "roles": [
+   "1985775528837121003",
+   "1985790125015041061"
+  ],
+  "unusual_dm_activity_until": null,
+  "collectibles": null,
+  "display_name_styles": null,
+  "member_gaming_leaderboard_data": null,
+  "user": {
+   "id": "1985773012254720993",
+   "username": "anon-1284",
+   "avatar": "anon-1285",
+   "discriminator": "anon-4",
+   "public_flags": 0,
+   "flags": 0,
+   "banner": null,
+   "accent_color": 0,
+   "global_name": "anon-1286",
+   "avatar_decoration_data": null,
+   "collectibles": null,
+   "display_name_styles": null,
+   "banner_color": "anon-146",
+   "clan": null,
+   "primary_guild": null
+  },
+  "mute": false,
+  "deaf": false,
+  "bio": "anon-972",
+  "permissions": "2222085186637377"
+ }
+}

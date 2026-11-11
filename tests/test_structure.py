@@ -268,7 +268,7 @@ def main_guards(source: str) -> bool:
                and n.test.left.id == "__name__" for n in ast.walk(ast.parse(source)))
 
 
-_PACKAGE_PATH = re.compile(rf"(^|[/\\]){PACKAGE_NAME}[/\\]")
+_PACKAGE_PATH = re.compile(rf"(^|[/\\]){PACKAGE_NAME}[/\\](?:{'|'.join(KINDS)}|__init__)\b")
 
 
 def package_paths(source: str, where: str) -> list[str]:
@@ -379,6 +379,7 @@ class CheckersCatchTheirCases(unittest.TestCase):
         self.assertTrue(package_paths("p = SCRIPTS / 'discord/archive'\n", "t"))
         self.assertTrue(package_paths("p = '/x/discord/archive/schema.sql'\n", "t"))
         self.assertTrue(package_paths("p = SCRIPTS / 'discord'\n", "t"))
+        self.assertFalse(package_paths("p = '.claude/skills/discord/data/captures/'\n", "t"))
         self.assertFalse(package_paths("u = 'https://discord.com/api/v9'\n", "t"))
         self.assertFalse(package_paths("m = 'discord.archive'\n", "t"))
         self.assertFalse(package_paths(f"f = copy.joinpath('discord', rel)  {MUTATION_MARK}\n", "t"))
