@@ -15,8 +15,12 @@ def prepare_output(root: Path) -> None:
         fd = os.open(root / ".gitignore", os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0), 0o644)
     except FileExistsError:
         return
-    with os.fdopen(fd, "w", encoding="utf-8") as f:
-        f.write("*\n")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write("*\n")
+    except BaseException:
+        (root / ".gitignore").unlink(missing_ok=True)   # an empty one would stay and ignore nothing
+        raise
 
 
 def write_result(root: Path, command: str, text: str) -> Path:

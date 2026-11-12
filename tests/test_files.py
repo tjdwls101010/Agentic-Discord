@@ -17,7 +17,10 @@ from urllib.parse import urlparse
 
 from support.fake_cdn import SHORT, FakeCdn
 from support.fake_discord import TOKEN, FakeDiscord, ToyWorld
-from support.harness import closed_port_url, run_cli, tokenless_copy
+from support.harness import closed_port_url, engine, run_cli, tokenless_copy
+
+attachments = engine("discord.attachments")
+archive = engine("discord.archive")
 
 PNG = bytes(range(256)) * 40          # 10,240 bytes
 JPG = b"\xff\xd8" + bytes(5000)       # 5,002 bytes
@@ -366,6 +369,33 @@ class Paths(FilesCase):
         rel = f".discord/files/{mid}/{a['id']}-chart.png"
         self.assertTrue((repo / rel).is_file())
         self.assertEqual(subprocess.run(["git", "check-ignore", "-q", rel], cwd=repo).returncode, 0)
+
+
+class Names(unittest.TestCase):
+    def test_a_lone_surrogate_in_a_name_is_dropped_not_fatal(self) -> None:
+        name = attachments.safe_name(7, "a\ud800b.png")
+        self.assertEqual(name, "7-ab.png")
+        name.encode()
+
+
+class OutputFolder(unittest.TestCase):
+    def test_a_gitignore_whose_write_failed_is_not_left_empty(self) -> None:
+        root = Path(tempfile.mkdtemp()) / ".discord"
+        real = os.fdopen
+
+        def failing(fd, *a, **k):
+            f = real(fd, *a, **k)
+            f.write = lambda s: (_ for _ in ()).throw(OSError(28, "No space left on device"))
+            return f
+        os.fdopen = failing
+        try:
+            with self.assertRaises(OSError):
+                archive.prepare_output(root)
+        finally:
+            os.fdopen = real
+        self.assertFalse((root / ".gitignore").exists())
+        archive.prepare_output(root)
+        self.assertEqual((root / ".gitignore").read_text(), "*\n")
 
 
 class WhatWasAsked(FilesCase):

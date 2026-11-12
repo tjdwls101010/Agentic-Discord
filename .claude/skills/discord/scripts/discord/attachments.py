@@ -45,8 +45,8 @@ def _attached(m: Message) -> tuple[Attachment, ...]:
 
 
 def safe_name(attachment_id: int, filename: str) -> str:
-    """`<attachment id>-<filename>` safe to create in one directory: no path separators or control characters, no leading dots, `file` when nothing is left, and at most NAME_BYTES bytes of UTF-8, shortened in the stem so the extension survives."""
-    name = "".join(c for c in filename if c not in "/\\" and unicodedata.category(c) != "Cc").lstrip(".") or "file"
+    """`<attachment id>-<filename>` safe to create in one directory: no path separators, control characters or lone surrogates, no leading dots, `file` when nothing is left, and at most NAME_BYTES bytes of UTF-8, shortened in the stem so the extension survives."""
+    name = "".join(c for c in filename if c not in "/\\" and unicodedata.category(c) not in ("Cc", "Cs")).lstrip(".") or "file"
     prefix = f"{attachment_id}-"
     room = NAME_BYTES - len(prefix.encode())
     if len(name.encode()) > room:
