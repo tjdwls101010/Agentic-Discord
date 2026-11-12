@@ -7,14 +7,19 @@ from __future__ import annotations
 
 import re
 import sqlite3
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 
+from support.fake_discord import TOKEN, FakeDiscord, ToyWorld
 from support.harness import engine
 
 archive = engine("discord.archive")
 records = engine("discord.records")
+errors = engine("discord.errors")
+discord_api = engine("discord.discord_api")
+reading = engine("discord.reading")
 
 CH = 1000
 USER = records.User(id=7, username="ana", global_name="Ana")
@@ -260,6 +265,82 @@ class ResultFiles(unittest.TestCase):
         self.assertEqual(sorted(p.read_text() for p in paths), sorted(f"x{i}" for i in range(20)))
         self.assertEqual({p.parent for p in paths}, {d / "results"})
         self.assertEqual((d / ".gitignore").read_text(), "*\n")
+
+    def test_preparing_the_output_folder_alone_makes_git_ignore_it(self) -> None:
+        """`files` writes under the same folder without ever writing a result file; whatever lands there stays out of commits."""
+        repo = Path(tempfile.mkdtemp())
+        subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+        out = repo / ".discord"
+        archive.prepare_output(out)
+        archive.prepare_output(out)   # a second call keeps what is there
+        (out / "files").mkdir()
+        (out / "files" / "a.png").write_bytes(b"x")
+        self.assertEqual(subprocess.run(["git", "check-ignore", "-q", ".discord/files/a.png"], cwd=repo).returncode, 0)
+        self.assertEqual((out / ".gitignore").read_text(), "*\n")
+
+
+class LookupsAfterARealRead(unittest.TestCase):
+    """What `show` and `files` ask of the archive, on an archive filled by the real collector from the toy Discord."""
+
+    def setUp(self) -> None:
+        w = ToyWorld()
+        self.world = w
+        ana = w.user("ana")
+        self.ch = w.channel("general", guild=w.guild("g"))
+        self.other = w.channel("random", guild=int(w.channels[self.ch]["guild_id"]))
+        self.ids = []
+        for i in range(10):
+            self.ids.append(w.post(self.ch, ana, f"m{i}"))
+            w.tick(60)
+        self.elsewhere = w.post(self.other, ana, "elsewhere")
+        w.tick(3600)
+        fake = FakeDiscord(w).__enter__()
+        self.addCleanup(fake.__exit__)
+        self.a = archive.Archive(Path(tempfile.mkdtemp()) / "discord.db")
+        self.addCleanup(self.a.close)
+        self.api = discord_api.Discord(discord_api.Http(TOKEN, token_hint="x", base_url=fake.url, gap=0))
+        self.a.save_channels([self.api.channel(self.ch), self.api.channel(self.other)], "2026-01-01T00:00:00.000000Z")
+        reading.collect(self.api, self.a, self.ch, reading.Spec("last", 100), now=lambda: w.now)
+        reading.collect(self.api, self.a, self.other, reading.Spec("last", 100), now=lambda: w.now)
+
+    def test_rows_by_id_are_the_ones_asked_for_oldest_first_and_the_rest_are_reported(self) -> None:
+        unknown = self.ids[-1] + 12345
+        asked = [self.ids[7], self.elsewhere, self.ids[2], unknown, self.ids[2]]
+        found, missing = self.a.messages_by_id(asked)
+        self.assertEqual([s.id for s in found], sorted([self.ids[2], self.ids[7], self.elsewhere]))
+        self.assertEqual(missing, [unknown])
+        by_id = {s.id: s for s in found}
+        self.assertEqual(by_id[self.elsewhere].channel_id, self.other)
+        self.assertEqual(by_id[self.ids[7]].raw["content"], "m7")
+        self.assertIsNone(by_id[self.ids[7]].absent_at)
+        self.assertTrue(by_id[self.ids[7]].fetched_at)
+
+    def test_a_row_marked_absent_is_still_given_with_its_mark(self) -> None:
+        self.world.delete(self.ids[4])
+        self.world.tick(1)
+        reading.collect(self.api, self.a, self.ch, reading.Spec("last", 100), now=lambda: self.world.now)
+        found, missing = self.a.messages_by_id([self.ids[4]])
+        self.assertEqual(missing, [])
+        self.assertIsNotNone(found[0].absent_at)
+
+    def test_stored_rows_between_two_ids_are_counted_exclusively_absent_ones_included(self) -> None:
+        self.assertEqual(self.a.count_between(self.ch, self.ids[1], self.ids[5]), 3)
+        self.assertEqual(self.a.count_between(self.ch, self.ids[1], self.ids[2]), 0)
+        self.assertEqual(self.a.count_between(self.other, self.ids[0], self.ids[9]), 0)
+        self.world.delete(self.ids[3])
+        self.world.tick(1)
+        reading.collect(self.api, self.a, self.ch, reading.Spec("last", 100), now=lambda: self.world.now)
+        self.assertIsNotNone(self.a.messages_by_id([self.ids[3]])[0][0].absent_at)
+        self.assertEqual(self.a.count_between(self.ch, self.ids[1], self.ids[5]), 3)
+
+    def test_opening_only_an_existing_archive_creates_nothing(self) -> None:
+        where = Path(tempfile.mkdtemp()) / "sub" / "discord.db"
+        with self.assertRaises(errors.Refusal):
+            archive.Archive.existing(where)
+        self.assertFalse(where.parent.exists())
+        opened = archive.Archive.existing(self.a.path)
+        self.addCleanup(opened.close)
+        self.assertEqual(len(opened.messages_by_id(self.ids)[0]), 10)
 
 
 if __name__ == "__main__":

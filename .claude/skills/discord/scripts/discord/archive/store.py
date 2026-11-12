@@ -25,6 +25,16 @@ class Range:
     head_id: int | None
 
 
+@dataclass(frozen=True)
+class Stored:
+    """One stored message row: the raw object as last fetched, and whether a later read found it missing."""
+    id: int
+    channel_id: int
+    raw: dict
+    fetched_at: str
+    absent_at: str | None
+
+
 def _b(v: bool | None) -> int | None:
     return None if v is None else int(bool(v))
 
@@ -48,6 +58,13 @@ class Archive:
                           fix=f"move {path} aside to start a new archive; the old one stays readable with sqlite3", kind="failed")
         # Not WAL: `sqlite3 -readonly` cannot open a WAL database once its writer has closed and the -shm file is gone.
         self.db.execute("PRAGMA journal_mode = DELETE")
+
+    @classmethod
+    def existing(cls, path: Path) -> "Archive":
+        """Open the archive at `path` only if it is already there: a command that only reads it must not leave an empty one behind."""
+        if not path.is_file() or path.stat().st_size == 0:
+            raise Refusal(f"there is no archive at {path} yet", fix="fetch something first with `read`, `search` or `get --transcript`")
+        return cls(path)
 
     def close(self) -> None:
         self.db.close()
@@ -245,6 +262,19 @@ class Archive:
         """Raw message objects stored for `channel_id` in [lo, hi] and not marked absent, oldest first."""
         return [json.loads(r[0]) for r in self.db.execute(
             "SELECT raw FROM messages WHERE channel_id=? AND id BETWEEN ? AND ? AND absent_at IS NULL ORDER BY id", (channel_id, lo, hi))]
+
+    def messages_by_id(self, ids) -> tuple[list[Stored], list[int]]:
+        """The stored rows of `ids`, oldest first, rows marked absent included; and the ids with no row, in the order given."""
+        wanted = list(dict.fromkeys(int(i) for i in ids))
+        rows = self.db.execute("SELECT id, channel_id, raw, fetched_at, absent_at FROM messages "
+                               "WHERE id IN (SELECT value FROM json_each(?)) ORDER BY id", (json.dumps(wanted),)).fetchall()
+        found = [Stored(r[0], r[1], json.loads(r[2]), r[3], r[4]) for r in rows]
+        have = {s.id for s in found}
+        return found, [i for i in wanted if i not in have]
+
+    def count_between(self, channel_id: int, lo: int, hi: int) -> int:
+        """How many rows of `channel_id` are stored strictly between ids `lo` and `hi`, rows marked absent included."""
+        return self.db.execute("SELECT count(*) FROM messages WHERE channel_id=? AND id > ? AND id < ?", (channel_id, lo, hi)).fetchone()[0]
 
     def channel(self, channel_id: int) -> dict | None:
         r = self.db.execute("SELECT id, server_id, parent_id, kind, name, last_message_id, can_view, can_read_history FROM channels WHERE id=?",

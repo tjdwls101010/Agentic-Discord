@@ -8,10 +8,10 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from .coverage import Page, Proof, prove
-from .results import write_result
-from .store import SCHEMA, SCHEMA_VERSION, Archive, Range
+from .results import prepare_output, write_result
+from .store import SCHEMA, SCHEMA_VERSION, Archive, Range, Stored
 
-__all__ = ["Archive", "Page", "Proof", "Range", "SCHEMA", "SCHEMA_VERSION", "now", "prove", "write_result"]
+__all__ = ["Archive", "Page", "Proof", "Range", "SCHEMA", "SCHEMA_VERSION", "Stored", "now", "prepare_output", "prove", "write_result"]
 
 
 def now() -> str:
