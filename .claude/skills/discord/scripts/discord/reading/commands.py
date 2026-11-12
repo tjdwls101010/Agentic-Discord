@@ -241,12 +241,13 @@ def _channel_of(db, channel_id: int) -> Channel:
 
 
 def _span(lo: int, hi: int) -> str:
-    """A read-through range in local whole seconds, the start rounded up and the end down, so it never claims more than was read."""
+    """A read-through range in local whole seconds, the start rounded up and the end down, so it never claims more than was read; to the millisecond (the precision of an id) when it lies inside one second."""
     start, end = discord_api.time_of(lo), discord_api.time_of(hi)
-    if start.microsecond:
-        start = start.replace(microsecond=0) + timedelta(seconds=1)
+    up = start.replace(microsecond=0) + timedelta(seconds=1) if start.microsecond else start
+    if up > end:
+        return " → ".join(t.astimezone().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3] for t in (start, end))
     fmt = "%Y-%m-%d %H:%M:%S"
-    return f"{start.astimezone().strftime(fmt)} → {end.astimezone().strftime(fmt)}"
+    return f"{up.astimezone().strftime(fmt)} → {end.astimezone().strftime(fmt)}"
 
 
 def show(db, results_dir: Path, ids: list[int], *, inline: int) -> str:

@@ -183,6 +183,14 @@ class ReadThrough(ShowCase):
         self.assertTrue(lines[1].startswith("read through: ") and "nowhere" not in lines[1], lines[1])
         self.assertEqual(lines[1].count("→"), 1)
 
+    def test_7_a_range_inside_one_second_is_printed_to_the_millisecond(self) -> None:
+        w = self.world
+        w.now = w.now.replace(microsecond=0) + timedelta(seconds=1)
+        burst = [w.post(self.quiet, self.ana, f"burst {i}") for i in range(3)]   # 1 ms apart, inside one second
+        self.ok("read", str(self.quiet), "--around", str(burst[1]), "--limit", "3", "--quiet")
+        ms = lambda m: m.astimezone().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+        self.assertEqual(self.body(burst[1])[1], f"read through: {ms(w.created[burst[0]])} → {ms(w.created[burst[2]])}")
+
     def test_7_a_channel_with_only_stray_rows_was_read_through_nowhere(self) -> None:
         self.ok("search", "Lab", "--content", "alpha")
         self.assertEqual(self.body(self.far[0])[1], "read through: nowhere here (these rows came from search or as reply targets)")
