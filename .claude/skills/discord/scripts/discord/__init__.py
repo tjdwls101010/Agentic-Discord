@@ -14,4 +14,4 @@ Units, by kind (imports run features -> systems and stores -> shared, never back
 - `errors` (shared): `Refusal`, the one way a unit says it will not or cannot do what was asked.
 """
 
-__version__ = "0.0.0"
+__version__ = "0.1.0"
