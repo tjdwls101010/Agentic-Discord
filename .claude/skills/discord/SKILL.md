@@ -21,15 +21,15 @@ A parent channel's read does not cover its threads or a forum's posts; a claim a
 
 ## What it costs
 
-What the archive already holds costs no request to read again: SQL chooses it and `show` prints it. Before reading Discord, look at what the archive holds for that channel (`coverage_named`); a request is for what lies outside it, or for what changed since. Attachment links expire about a day after their message was fetched; from then on `files` spends a request per message, where reading their range again spends one per 100 messages.
+What the archive already holds costs no request to read again. Before reading Discord, check what it holds for that channel (`coverage_named`), and request only what lies outside it or what needs updating.
 
 Automating a user token is against Discord's terms, and Discord enforces it: users of tools that only read, like this one, report being logged out and made to reset their password, with suspension further along, and that slowing down did not prevent it. Every request is pressure on the user's own account.
 
-Nothing here sends. When one message was sent with this account's token outside the skill, Discord flagged the account for spam and reset its password about 20 seconds later.
+Nothing here sends, and sending with this token by any route puts the account at risk: after one message was sent with it outside the skill, Discord recorded a spam violation and required a password reset, and the token answered 401 from about 20 seconds later.
 
-The archive, the result files and downloaded files hold other people's messages and uploads, DMs included: being able to read them is not leave to pass them on.
+The archive, the result files and downloaded files hold other people's messages and uploads, DMs included: being able to read them is not leave to disclose them to others.
 
 ## What you cannot see from here
 
 - The user's unread state does not exist here.
-- Link-preview images, and anything said in voice.
+- Link-preview images (`files` takes attachments only; a preview's URL stays in `raw`), and anything said in voice.
