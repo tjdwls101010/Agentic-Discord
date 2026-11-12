@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from discord import archive, directory, discord_api, transcript
@@ -241,7 +241,12 @@ def _channel_of(db, channel_id: int) -> Channel:
 
 
 def _span(lo: int, hi: int) -> str:
-    return f"{_bound_text(lo)[:16]} → {_bound_text(hi)[:16]}"
+    """A read-through range in local whole seconds, the start rounded up and the end down, so it never claims more than was read."""
+    start, end = discord_api.time_of(lo), discord_api.time_of(hi)
+    if start.microsecond:
+        start = start.replace(microsecond=0) + timedelta(seconds=1)
+    fmt = "%Y-%m-%d %H:%M:%S"
+    return f"{start.astimezone().strftime(fmt)} → {end.astimezone().strftime(fmt)}"
 
 
 def show(db, results_dir: Path, ids: list[int], *, inline: int) -> str:

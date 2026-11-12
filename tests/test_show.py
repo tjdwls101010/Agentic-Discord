@@ -11,15 +11,18 @@ import shutil
 import tempfile
 import time
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from support.fake_discord import TOKEN, FakeDiscord, ToyWorld
 from support.harness import closed_port_url, run_cli, tokenless_copy
 
 
-def local_minute(moment: datetime) -> str:
-    return moment.astimezone().strftime("%Y-%m-%d %H:%M")
+def local_second(moment: datetime, *, up: bool) -> str:
+    """A range bound as `read through:` must print it: whole seconds, the start rounded up and the end down, so the line never claims more than was read."""
+    if up and moment.microsecond:
+        moment = moment.replace(microsecond=0) + timedelta(seconds=1)
+    return moment.astimezone().strftime("%Y-%m-%d %H:%M:%S")
 
 
 class ShowCase(unittest.TestCase):
@@ -164,12 +167,21 @@ class ThreadStarts(ShowCase):
 class ReadThrough(ShowCase):
     def test_7_the_line_names_the_range_read_and_only_that(self) -> None:
         self.read_range(2, 5)
-        expect = f"read through: {local_minute(self.world.created[self.ids[1]])} → {local_minute(self.world.created[self.ids[6]])}"
+        # The range is (ids[1], ids[6]) exclusive: it starts in ids[1]'s millisecond and ends in ids[6]'s.
+        expect = f"read through: {local_second(self.world.created[self.ids[1]], up=True)} → {local_second(self.world.created[self.ids[6]], up=False)}"
+        self.assertTrue(self.world.created[self.ids[1]].microsecond, "the toy clock must give the bounds a fraction of a second to round")
         self.assertEqual(self.body(self.ids[3])[1], expect)
         self.ok("search", "Lab", "--content", "needle")            # ids[0] and ids[7] become stray rows around the range
         lines = self.body(self.ids[0], self.ids[3], self.ids[7])
         self.assertEqual(lines[1], expect)
         self.assertEqual([x for x in lines if x.startswith("⋯")], ["⋯ 1 not shown; not read through", "⋯ 2 not shown; not read through"])
+
+    def test_7_a_range_lying_only_between_two_stray_rows_is_named(self) -> None:
+        self.read_range(2, 5)
+        self.ok("search", "Lab", "--content", "needle")            # ids[0] and ids[7], outside the range on both sides
+        lines = self.body(self.ids[0], self.ids[7])
+        self.assertTrue(lines[1].startswith("read through: ") and "nowhere" not in lines[1], lines[1])
+        self.assertEqual(lines[1].count("→"), 1)
 
     def test_7_a_channel_with_only_stray_rows_was_read_through_nowhere(self) -> None:
         self.ok("search", "Lab", "--content", "alpha")
@@ -187,10 +199,15 @@ class ReadThrough(ShowCase):
 
 class SameAsRead(ShowCase):
     def test_8_show_prints_what_read_printed_but_for_the_group_lines(self) -> None:
-        read = self.ok("read", str(self.ch), "--last", "20")
-        read_body = read.split("\n\n", 1)[1]
-        lines = self.body(*self.ids)
+        def result_body(stdout: str) -> str:
+            path = Path(stdout.split("result: ", 1)[1].splitlines()[0])
+            return path.read_text(encoding="utf-8").split("\n\n", 1)[1]
+        read_body = result_body(self.ok("read", str(self.ch), "--last", "20", "--inline", "0"))
+        r = self.show(*self.ids, "--inline", "0")
+        self.assertEqual(r.returncode, 0, r.stdout)
+        lines = result_body(r.stdout).splitlines()
         self.assertEqual(lines[0], f"══ Lab › #general (text) [{self.ch}] · 20 messages ══")
+        self.assertTrue(lines[1].startswith("read through: "))
         self.assertEqual("\n".join(lines[2:]), read_body.rstrip("\n"))
 
 
@@ -229,6 +246,17 @@ class HeaderAndRefusals(ShowCase):
         self.assertEqual(out["error"], "usage")
         self.assertIn(f"'{self.ids[3]}|m3'", out["message"])
         self.assertIn("'null'", out["message"])
+
+    def test_9_a_link_must_be_the_whole_value(self) -> None:
+        self.read_range(2, 5)
+        good = f"https://discord.com/channels/{self.g}/{self.ch}/{self.ids[3]}"
+        for bad in (f"https://evil.example/discord.com/channels/{self.g}/{self.ch}/{self.ids[3]}", good + "|extra", "x" + good):
+            with self.subTest(bad=bad):
+                r = self.cli("show", bad)
+                self.assertEqual(r.returncode, 2, r.stdout)
+        for ok in (good, good.replace("https://", ""), good.replace("discord.com", "ptb.discord.com"), good + "/"):
+            with self.subTest(ok=ok):
+                self.assertEqual(self.show(ok).returncode, 0)
 
     def test_9_with_no_archive_it_refuses_and_creates_none(self) -> None:
         r = self.show(self.ids[0])
