@@ -6,14 +6,15 @@
 from __future__ import annotations
 
 from .api import PAGE, SEARCH_MAX_OFFSET, SEARCH_PAGE, THREAD_PAGE, Discord
+from .cdn import Download, download
 from .http import USER_AGENT, Http, HttpFailure
 from .parse import message as parse_message
 from .parse import role_mentions
 from .permissions import channel_access
 from .snowflake import at, from_discord_time, iso, parse_bound, parse_link, time_of
 
-__all__ = ["Discord", "Http", "HttpFailure", "PAGE", "SEARCH_MAX_OFFSET", "SEARCH_PAGE", "THREAD_PAGE", "USER_AGENT",
-           "at", "connect", "from_discord_time", "iso", "parse_bound", "parse_link", "parse_message", "role_mentions",
+__all__ = ["Discord", "Download", "Http", "HttpFailure", "PAGE", "SEARCH_MAX_OFFSET", "SEARCH_PAGE", "THREAD_PAGE", "USER_AGENT",
+           "at", "connect", "download", "from_discord_time", "iso", "parse_bound", "parse_link", "parse_message", "role_mentions",
            "time_of", "channel_access"]
 
 
