@@ -178,20 +178,44 @@ class Tokens(LocalTime):
 class Details(LocalTime):
     def test_files_embeds_stickers_reactions_threads(self) -> None:
         m = raw(1, content="look https://example.com/a",
-                attachments=[{"filename": "a.png", "url": "https://cdn/a.png", "content_type": "image/png"}],
+                attachments=[{"filename": "a.png", "url": "https://cdn.discordapp.com/attachments/1/2/a.png?ex=6af677f0&is=6af52670&hm=1e41&", "content_type": "image/png"}],
                 embeds=[{"url": "https://example.com/a", "title": "A", "description": "about <@11>", "fields": [{"name": "k", "value": "v"}], "footer": {"text": "f"}},
                         {"url": "https://other.example/b", "title": "B"}],
                 sticker_items=[{"name": "wave"}],
                 reactions=[{"emoji": {"name": "👍"}, "count": 3}, {"emoji": {"id": "55", "name": "pepe"}, "count": 1}, {"emoji": {"id": "56", "name": None}, "count": 2}],
                 thread={"id": "700", "name": "more", "message_count": 4})
         self.assertEqual(render(m)[2:], [
-            "  + file: a.png (image/png) https://cdn/a.png",
+            "  + file: a.png (image/png)",
             "  + embed: A | about @Ana (nick) | k: v | f",
             "  + embed: B | https://other.example/b",
             "  + sticker: wave",
             "  + reactions: 👍 3, :pepe: 1, :56: 2",
             "  + thread: more [700] · 4 messages",
         ])
+
+
+class FileLines(LocalTime):
+    """A file line says what the message declares and carries no link: links are signed and expire within a day, the archive's raw keeps them, and `files` fetches the bytes."""
+
+    URL = "https://cdn.discordapp.com/attachments/500/9/chart.png?ex=6af677f0&is=6af52670&hm=" + "1e41" * 16 + "&"
+
+    def test_type_size_and_pixels_as_declared_and_no_link(self) -> None:
+        a = {"id": "9", "filename": "chart.png", "url": self.URL, "content_type": "image/png", "size": 263168, "width": 2096, "height": 1698}
+        lines = render(raw(1, content="see https://example.com/x", attachments=[a]))
+        self.assertEqual(lines[1:], ["09:05 Ana (nick): see https://example.com/x  [1]", "  + file: chart.png (image/png, 257 KB, 2096×1698)"])
+
+    def test_what_is_not_declared_is_left_out(self) -> None:
+        cases = [({"size": 900}, "  + file: n.txt (900 B)"), ({"size": 3 * 1024 * 1024 + 1}, "  + file: n.txt (3.0 MB)"), ({}, "  + file: n.txt")]
+        for extra, line in cases:
+            with self.subTest(extra=extra):
+                self.assertEqual(render(raw(1, attachments=[{"filename": "n.txt", "url": self.URL, **extra}]))[2], line)
+
+    def test_a_forwarded_file_is_written_the_same_way(self) -> None:
+        f = raw(4, author=BOB, message_reference={"type": 1, "channel_id": "600", "message_id": "77"},
+                message_snapshots=[{"message": {"content": "", "timestamp": "2026-11-10T23:00:00+00:00", "embeds": [],
+                                                "attachments": [{"filename": "s.webp", "url": self.URL, "content_type": "image/webp", "size": 2048}]}}])
+        self.assertEqual(render(f)[3], "  + forwarded file: s.webp (image/webp, 2 KB)")
+        self.assertNotIn("cdn.discordapp.com", "\n".join(render(f)))
 
 
 class WhatTheArchiveKnows(LocalTime):

@@ -17,6 +17,7 @@ from pathlib import Path
 from discord import archive, discord_api, reading
 from discord.errors import Refusal
 from discord.records import Attachment, Message
+from discord.transcript import size_text
 
 #: A link this close to its expiry is treated as expired: it could lapse before the request lands.
 EXPIRY_MARGIN = timedelta(seconds=60)
@@ -55,14 +56,6 @@ def safe_name(attachment_id: int, filename: str) -> str:
         stem = stem.encode()[: room - len(ext.encode())].decode("utf-8", "ignore") or "file"
         name = stem + ext
     return prefix + name
-
-
-def _size(n: int) -> str:
-    if n < 1024:
-        return f"{n} B"
-    if n < 1024 * 1024:
-        return f"{n / 1024:.0f} KB"
-    return f"{n / (1024 * 1024):.1f} MB"
 
 
 def _expired(a: Attachment, now: datetime) -> bool:
@@ -146,7 +139,7 @@ def files(db, connect, output_root: Path, ids: list[int], *, max_bytes: int, ref
         if d.outcome == "saved":
             f.new_bytes, f.downloaded = d.size, True
             dims = f"{a.width}×{a.height}" if a.width and a.height else ""
-            f.shown = f"  {f.path}  " + " ".join(x for x in (d.content_type, _size(d.size), dims) if x)
+            f.shown = f"  {f.path}  " + " ".join(x for x in (d.content_type, size_text(d.size), dims) if x)
             return False
         if d.outcome == "expired":
             return True
@@ -164,9 +157,9 @@ def files(db, connect, output_root: Path, ids: list[int], *, max_bytes: int, ref
         f.path = place
         if place.is_file():
             dims = f" {a.width}×{a.height}" if a.width and a.height else ""
-            f.shown = f"  {place}  {_size(place.stat().st_size)}{dims} (already here)"
+            f.shown = f"  {place}  {size_text(place.stat().st_size)}{dims} (already here)"
         elif a.size is not None and a.size > max_bytes:
-            f.reason = f"over --max-mb (declared {_size(a.size)})"
+            f.reason = f"over --max-mb (declared {size_text(a.size)})"
         elif _expired(a, now) or take(f, a):
             pending.setdefault(f.message.id, []).append(f)
 
@@ -238,7 +231,7 @@ def _listing(db, messages: dict[int, Message], todo: list[_File], notes: list[st
              stopped: Refusal | None, tried: int, requests: int) -> str:
     new = [f for f in todo if f.downloaded]
     here = [f for f in todo if f.shown and not f.downloaded]
-    lines = [f"files: {len(messages)} messages, {len(todo)} files · downloaded {len(new)} ({_size(sum(f.new_bytes for f in new))})"
+    lines = [f"files: {len(messages)} messages, {len(todo)} files · downloaded {len(new)} ({size_text(sum(f.new_bytes for f in new))})"
              f" · already here {len(here)} · fetched again {tried} messages in {requests} API requests"]
     for mid in sorted(messages):
         shown = [f.shown for f in todo if f.message.id == mid and f.shown]
