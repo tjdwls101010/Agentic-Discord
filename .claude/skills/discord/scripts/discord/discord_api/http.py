@@ -1,6 +1,6 @@
 """GET requests to Discord's REST API, with the waits and retries a user token needs.
 
-There is deliberately no way to send any other method: `get` takes no method argument and builds every request as a GET, so the skill stays read-only by construction.
+There is deliberately no way to send any other method: `get` takes no method argument and builds every request as a GET, so the skill stays read-only by construction. The reason is measured, not only principle: the first message this account's token sent through the API (2026-11-12) was followed by every request answering 401 from about 20 seconds later, and by Discord recording a spam violation on the account and requiring a password reset.
 """
 
 from __future__ import annotations
@@ -23,6 +23,9 @@ GAP_SECONDS = 0.5
 RATE_LIMIT_RETRIES = 5
 INDEXING_RETRIES = 5
 BACKOFF = (1, 2, 4, 8)
+#: Said with a 401 before the user's own fix: why a token stops working, and what to look at before writing in a new one.
+REJECTED = ("Discord no longer accepts this token. A token stops working when the account's password changes, and also when Discord resets the account because it suspects automation; "
+            "before writing in a new one, read Discord's system messages and Settings › Account Standing. Then: ")
 #: The longest single wait a 429 or 202 may ask for before it counts as a failure instead.
 LONGEST_WAIT = 60.0
 
@@ -132,7 +135,7 @@ class Http:
             message = data.get("message") if isinstance(data, dict) else None
             detail = f" ({message}, code {code})" if message else ""
             if status == 401:
-                raise HttpFailure(f"Discord rejected the token{detail}", status=401, code=code, kind="auth", fix=self._token_hint)
+                raise HttpFailure(f"Discord rejected the token{detail}", status=401, code=code, kind="auth", fix=REJECTED + self._token_hint)
             if status == 403:
                 what = "you have no access to this" if code == 50001 else "Discord refused this for a user token"
                 raise HttpFailure(f"{shown}: {what}{detail}", status=403, code=code, kind="forbidden")

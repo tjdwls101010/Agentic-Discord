@@ -96,5 +96,29 @@ class DoctorCase(unittest.TestCase):
         self.assertIn(str(self.env_file), out["fix"])
 
 
+class RejectedToken(DoctorCase):
+    """A rejected token can mean Discord reset the account over suspected automation, so the fix for a 401 says to check the account first; a missing token is only a missing file."""
+
+    STANDING = "Account Standing"
+
+    def test_doctor_and_a_command_given_a_rejected_token_say_to_check_the_account(self) -> None:
+        self.write_env("DISCORD_TOKEN=revoked-token-value\n")
+        code, report, raw = self.doctor()
+        fix = next(b["fix"] for b in report["blockers"] if "rejected the token" in b["problem"])
+        self.assertIn(self.STANDING, fix)
+        self.assertIn("password", fix)
+        self.assertIn(str(self.env_file), fix)
+        base = {k: v for k, v in os.environ.items() if not k.startswith("DISCORD_")}
+        base.update({"DISCORD_API_BASE": self.fake.url, "DISCORD_SKILL_DATA": str(self.root / "data")})
+        r = subprocess.run([sys.executable, str(self.scripts / "cli.py"), "servers"], capture_output=True, text=True, env=base)
+        out = json.loads(r.stdout)
+        self.assertEqual((r.returncode, out["error"]), (1, "auth"))
+        self.assertIn(self.STANDING, out["fix"])
+
+    def test_no_token_file_is_not_told_about_the_account(self) -> None:
+        code, report, raw = self.doctor()
+        self.assertNotIn(self.STANDING, json.dumps(report))
+
+
 if __name__ == "__main__":
     unittest.main()

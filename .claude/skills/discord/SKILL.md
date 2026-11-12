@@ -21,9 +21,15 @@ A parent channel's read does not cover its threads or a forum's posts; a claim a
 
 ## What it costs
 
-A broad read takes many requests. Automating a user token is against Discord's terms, so every request is pressure on the user's own account. The archive and the result files keep other people's messages, DMs included: being able to read them is not leave to pass them on.
+What the archive already holds costs no request to read again. Before reading Discord, check what it holds for that channel (`coverage_named`), and request only what lies outside it or what needs updating.
+
+Automating a user token is against Discord's terms, and Discord enforces it: users of tools that only read, like this one, report being logged out and made to reset their password, with suspension further along, and that slowing down did not prevent it. Every request is pressure on the user's own account.
+
+Nothing here sends, and sending with this token by any route puts the account at risk: after one message was sent with it outside the skill, Discord recorded a spam violation and required a password reset, and the token answered 401 from about 20 seconds later.
+
+The archive, the result files and downloaded files hold other people's messages and uploads, DMs included: being able to read them is not leave to disclose them to others.
 
 ## What you cannot see from here
 
 - The user's unread state does not exist here.
-- Link-preview images, and anything said in voice.
+- Link-preview images (`files` takes attachments only; a preview's URL stays in `raw`), and anything said in voice.
