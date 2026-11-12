@@ -73,8 +73,8 @@ class _Disk:
 
     def place(self, message_id: int, a: Attachment) -> Path | str:
         """The final path for `a`, or why there is none."""
-        if not (isinstance(a.id, int) and a.id > 0 and isinstance(message_id, int) and message_id > 0):
-            return "its id is not a plain number, so it cannot name a file safely"
+        if not all(isinstance(i, int) and 0 < i < 1 << 64 for i in (a.id, message_id)):
+            return "its id is not a snowflake (a plain number of at most 20 digits), so it cannot name a file safely"
         folder = self.root / str(message_id)
         path = folder / safe_name(a.id, a.filename)
         for p in (self.output, self.root, folder, path):
@@ -83,7 +83,13 @@ class _Disk:
         return path
 
     def save(self, url: str, path: Path, max_bytes: int) -> discord_api.Download:
-        """Download `url` to a temporary file beside `path` and move it to `path` only when all of it arrived."""
+        """Download `url` to a temporary file beside `path` and move it to `path` only when all of it arrived. A file system error fails this file alone."""
+        try:
+            return self._save(url, path, max_bytes)
+        except OSError as e:
+            return discord_api.Download("failed", detail=f"could not write it here ({e.strerror or type(e).__name__})")
+
+    def _save(self, url: str, path: Path, max_bytes: int) -> discord_api.Download:
         archive.prepare_output(self.output)
         for d in (self.root, path.parent):
             d.mkdir(exist_ok=True)
@@ -165,7 +171,7 @@ def files(db, connect, output_root: Path, ids: list[int], *, max_bytes: int, ref
 
     api = None
     stopped: Refusal | None = None
-    tried = requests = 0
+    tried = refreshed = requests = 0
     over: dict[int, list[int]] = {}
     for mid in sorted(pending):
         group = pending[mid]
@@ -179,15 +185,16 @@ def files(db, connect, output_root: Path, ids: list[int], *, max_bytes: int, ref
                 f.reason = f"link expired; not refreshed (--refresh {refresh} reached)"
             over.setdefault(m.channel_id, []).append(mid)
             continue
-        tried += 1
         try:
             if api is None:
                 api = connect()
+            tried += 1
             before = api.requests
             try:
                 out = reading.collect(api, db, m.channel_id, reading.Spec("around", WINDOW, around=mid))
             finally:
                 requests += api.requests - before
+            refreshed += 1
         except discord_api.HttpFailure as e:
             if e.status in (403, 404):
                 why = "access refused" if e.status == 403 else "not found"
@@ -214,7 +221,7 @@ def files(db, connect, output_root: Path, ids: list[int], *, max_bytes: int, ref
             elif take(f, a):
                 f.reason = "the link was expired again right after refreshing"
 
-    return _listing(db, messages, todo, notes, over, stopped, tried, requests)
+    return _listing(db, messages, todo, notes, over, stopped, refreshed, requests)
 
 
 def _who_where(db, m: Message) -> str:
@@ -228,11 +235,11 @@ def _who_where(db, m: Message) -> str:
 
 
 def _listing(db, messages: dict[int, Message], todo: list[_File], notes: list[str], over: dict[int, list[int]],
-             stopped: Refusal | None, tried: int, requests: int) -> str:
+             stopped: Refusal | None, refreshed: int, requests: int) -> str:
     new = [f for f in todo if f.downloaded]
     here = [f for f in todo if f.shown and not f.downloaded]
     lines = [f"files: {len(messages)} messages, {len(todo)} files · downloaded {len(new)} ({size_text(sum(f.new_bytes for f in new))})"
-             f" · already here {len(here)} · fetched again {tried} messages in {requests} API requests"]
+             f" · already here {len(here)} · fetched again {refreshed} messages in {requests} API requests"]
     for mid in sorted(messages):
         shown = [f.shown for f in todo if f.message.id == mid and f.shown]
         if shown:
@@ -242,7 +249,7 @@ def _listing(db, messages: dict[int, Message], todo: list[_File], notes: list[st
         lines.append("not downloaded:")
         lines += [f"  {x}" for x in notes + failed]
         for channel_id, mids in sorted(over.items()):
-            lines.append(f"  to refresh those links, read their range again (100 messages per request), then run files again: "
+            lines.append(f"  to refresh those links, read their range again (100 messages per request; if the read stops at its --limit, its header gives the arguments that continue it), then run files again: "
                          f"read {channel_id} --after {min(mids) - 1} --before {max(mids) + 1}")
         if stopped is not None:
             lines.append(f"  refreshing stopped: {stopped.message}" + (f"; fix: {stopped.fix}" if stopped.fix else ""))

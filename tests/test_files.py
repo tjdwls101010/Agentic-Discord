@@ -218,6 +218,16 @@ class Refreshing(FilesCase):
         self.assertEqual(self.names(second) | self.names(third), set())
         self.assertIn("link expired; not refreshed", out)
         self.assertIn(f"read {self.ch} --after {second - 1} --before {third + 1}", out)
+        self.assertIn("continue", out.split("not downloaded:")[1])          # a long range can be cut by read's --limit
+
+    def test_a_link_still_expired_after_refreshing_is_said_so(self) -> None:
+        mid, _ = self.post(("a.png", PNG))
+        self.read(expired=True)
+        self.world.link_life = -3600                                        # the refreshed answer hands out a dead link too
+        out = self.ok(mid)
+        self.assertIn("expired again right after refreshing", out)
+        self.assertEqual(self.names(mid), set())
+        self.assertIn("fetched again 1 messages in 1 API requests", self.first_line(out))
 
     def test_21_a_thread_start_takes_the_original_s_files_from_the_parent_channel(self) -> None:
         w = self.world
@@ -263,6 +273,7 @@ class Refreshing(FilesCase):
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertIn("refreshing stopped", r.stdout)
         self.assertIn(str(copy / ".env"), r.stdout)
+        self.assertIn("fetched again 0 messages in 0 API requests", r.stdout.splitlines()[0])
 
     def test_22_access_refused_is_that_message_s_reason_and_the_next_goes_on(self) -> None:
         hidden = self.world.channel("hidden", guild=self.g)
@@ -319,6 +330,23 @@ class Paths(FilesCase):
                 self.assertEqual(list(outside.iterdir()), [])
                 self.assertIn("chart.png", out.split("not downloaded:")[1])
                 self.assertEqual(self.cdn.requests, [])
+
+    def test_19_a_planted_gitignore_link_is_not_written_through(self) -> None:
+        mid, (a,) = self.post(("chart.png", PNG))
+        self.read()
+        cwd = Path(tempfile.mkdtemp()).resolve()
+        outside = Path(tempfile.mkdtemp()).resolve()
+        (cwd / ".discord").mkdir()
+        (cwd / ".discord" / ".gitignore").symlink_to(outside / "planted")
+        self.ok(mid, cwd=cwd)
+        self.assertEqual(list(outside.iterdir()), [])
+
+    def test_18_an_id_too_long_to_name_a_file_is_listed_and_the_rest_go_on(self) -> None:
+        mid, _ = self.post(("odd.png", PNG, {"att_id": "9" * 255}), ("fine.png", PNG))
+        self.read()
+        out = self.ok(mid)
+        self.assertIn("odd.png", out.split("not downloaded:")[1])
+        self.assertTrue(any(n.endswith("-fine.png") for n in self.names(mid)))
 
     def test_20_a_link_that_is_not_discord_s_cdn_is_never_requested(self) -> None:
         mid = self.world.post(self.ch, self.ana, "x", attachments=[{

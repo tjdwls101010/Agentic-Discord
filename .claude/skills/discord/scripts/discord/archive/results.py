@@ -11,9 +11,12 @@ from pathlib import Path
 def prepare_output(root: Path) -> None:
     """Create `root`, the working directory's output folder, with a .gitignore of `*` the first time, so nothing written under it (results, downloaded files) reaches a commit of the project it was made in."""
     root.mkdir(parents=True, exist_ok=True)
-    ignore = root / ".gitignore"
-    if not ignore.exists():
-        ignore.write_text("*\n", encoding="utf-8")
+    try:   # created only where nothing is, a symbolic link included: never written through one
+        fd = os.open(root / ".gitignore", os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0), 0o644)
+    except FileExistsError:
+        return
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        f.write("*\n")
 
 
 def write_result(root: Path, command: str, text: str) -> Path:

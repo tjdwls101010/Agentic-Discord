@@ -101,6 +101,10 @@ class Refusing(CdnCase):
             "https://cdn.discordapp.com:443" + rest,
             "https://cdn.discordapp.com." + rest,
             "ftp://cdn.discordapp.com" + rest,
+            "https://cdn%2Ediscordapp.com" + rest,
+            "https://cdn.discordapp.com\\@evil.test" + rest,
+            "https://evil.test\\@cdn.discordapp.com" + rest,
+            "https://cdn.discordapp.com%40evil.test" + rest,
             "",
         ]
         for url in bad:
