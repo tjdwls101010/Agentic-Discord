@@ -1,14 +1,14 @@
-"""`read`, `search` and `get`: a header with the cheap facts first, the whole result in a new file, and the transcript inline when it is small."""
+"""`read`, `search`, `get` and `show`: a header with the cheap facts first, the whole result in a new file, and the transcript inline when it is small."""
 
 from __future__ import annotations
 
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from discord import archive, directory, discord_api, transcript
 from discord.errors import Refusal
-from discord.records import READABLE_KINDS, Message
+from discord.records import READABLE_KINDS, Channel, Message
 
 from .collect import Spec, collect
 
@@ -233,3 +233,65 @@ def get(api, db, results_dir: Path, path: str, query: list[tuple[str, str]], *, 
     body = json.dumps(data, ensure_ascii=False, indent=1)
     header = [f"get: {shown}", f"json: {len(body)} characters"]
     return _finish(results_dir, "get", header, body, len(body), inline * 1000, unit="characters", flag="--inline × 1000 = {inline}")
+
+
+def _channel_of(db, channel_id: int) -> Channel:
+    row = db.channel(channel_id) or {"kind": "unknown", "name": None, "server_id": None, "parent_id": None}
+    return Channel(id=channel_id, kind=row["kind"], name=row["name"], server_id=row["server_id"], parent_id=row["parent_id"])
+
+
+def _span(lo: int, hi: int) -> str:
+    """A read-through range in local whole seconds, the start rounded up and the end down, so it never claims more than was read; to the millisecond (the precision of an id) when it lies inside one second."""
+    start, end = discord_api.time_of(lo), discord_api.time_of(hi)
+    up = start.replace(microsecond=0) + timedelta(seconds=1) if start.microsecond else start
+    if up > end:
+        return " → ".join(t.astimezone().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3] for t in (start, end))
+    fmt = "%Y-%m-%d %H:%M:%S"
+    return f"{up.astimezone().strftime(fmt)} → {end.astimezone().strftime(fmt)}"
+
+
+def show(db, results_dir: Path, ids: list[int], *, inline: int) -> str:
+    """The stored messages of `ids` as a transcript, grouped by channel, with what the archive knows about what lies around them. Makes no request."""
+    found, missing = db.messages_by_id(ids)
+    if not found:
+        raise Refusal(f"none of the {len(missing)} ids is in the archive",
+                      fix="fetch them first (`read`, `search`, `get --transcript`), or check the query that chose them")
+    groups: dict[int, list] = {}
+    for s in found:
+        groups.setdefault(s.channel_id, []).append(s)
+    sections: list[str] = []
+    outside = 0
+    for channel_id, rows in groups.items():   # found is in id order, so groups follow their first message
+        channel = _channel_of(db, channel_id)
+        ranges = db.coverage(channel_id)
+        first, last = rows[0].id, rows[-1].id
+
+        def inside(i: int) -> bool:
+            return any(r.lo <= i <= r.hi for r in ranges)
+
+        outside += sum(1 for s in rows if not inside(s.id))
+        overlapping = [r for r in ranges if r.lo <= last and r.hi >= first]
+        through = ("; ".join(_span(r.lo, r.hi) for r in overlapping) if overlapping
+                   else "nowhere here (these rows came from search or as reply targets)")
+        gaps: dict[int, str] = {}
+        for a, b in zip(rows, rows[1:]):
+            facts = []
+            n = db.count_between(channel_id, a.id, b.id)
+            if n:
+                facts.append(f"{n} not shown")
+            if not any(r.lo <= a.id and b.id <= r.hi for r in ranges):
+                facts.append("not read through")
+            if facts:
+                gaps[b.id] = "; ".join(facts)
+        msgs = [discord_api.parse_message(s.raw, channel_id=channel_id) for s in rows]
+        names = directory.names_for(None, db, channel.server_id, msgs, look_up=False)
+        text = transcript.render(msgs, names, gone={s.id for s in rows if s.absent_at}, gaps=gaps)
+        sections.append("\n".join([f"══ {_label(db, channel)} ({channel.kind}) [{channel_id}] · {len(rows)} messages ══",
+                                    f"read through: {through}", text]))
+    fetched = sorted(s.fetched_at for s in found)
+    header = [f"show: {len(found)} messages in {len(groups)} channels · no request made (from the archive only)",
+              f"fetched: {_when(fetched[0])} → {_when(fetched[-1])}; each message is as it was when fetched, so later edits, reactions and deletions may not be in it",
+              f"outside read-through ranges: {outside}" + (" (search hits or reply targets, stored one by one)" if outside else "")]
+    if missing:
+        header.append(f"not in the archive: {len(missing)} (" + ", ".join(map(str, missing[:5])) + (", …" if len(missing) > 5 else "") + ")")
+    return _finish(results_dir, "show", header, "\n\n".join(sections), len(found), inline)

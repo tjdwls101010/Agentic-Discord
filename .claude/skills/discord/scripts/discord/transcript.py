@@ -182,10 +182,10 @@ def _event_line(msg: Message, names: Names) -> str:
     return f"* {phrase}" + (f": {_indent(text)}" if text and w in ("follow", "automod") else "")
 
 
-def _message(msg: Message, names: Names, show_channel: bool) -> list[str]:
+def _message(msg: Message, names: Names, show_channel: bool, gone: bool) -> list[str]:
     head = _local(msg.sent_at)
     where = f"#{names.channels.get(msg.channel_id) or msg.channel_id} · " if show_channel else ""
-    tail = f"  [{msg.id}]"
+    tail = f"  [{msg.id}]" + (" (gone)" if gone else "")
     flags = [f for f, on in (("edited", msg.edited_at), ("pinned", msg.pinned)) if on]
     if msg.kind == "system":
         return [f"{head} {where}{_event_line(msg, names)}{tail}"] + _details(msg, names)
@@ -226,14 +226,19 @@ def _message(msg: Message, names: Names, show_channel: bool) -> list[str]:
     return lines + _details(msg, names)
 
 
-def render(messages: list[Message], names: Names, *, show_channel: bool = False) -> str:
-    """The transcript of `messages` in the order given, with a `── date ──` line whenever the local day changes."""
+def render(messages: list[Message], names: Names, *, show_channel: bool = False, gone=frozenset(), gaps: dict[int, str] | None = None) -> str:
+    """The transcript of `messages` in the order given, with a `── date ──` line whenever the local day changes.
+
+    What only the archive knows comes in by id: `gone` marks rows a later read found missing (`(gone)` after the id), and `gaps` puts a `⋯ <text>` line before a message, saying what lies between it and the one printed before it.
+    """
     out: list[str] = []
     day = None
     for msg in messages:
+        if gaps and msg.id in gaps:
+            out.append(f"⋯ {gaps[msg.id]}")
         d = _local(msg.sent_at, "%Y-%m-%d %a")
         if d != day:
             out.append(f"── {d} ──")
             day = d
-        out += _message(msg, names, show_channel)
+        out += _message(msg, names, show_channel, msg.id in gone)
     return "\n".join(out)

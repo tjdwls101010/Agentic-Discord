@@ -11,6 +11,7 @@ EPOCH_MS = 1420070400000
 _RELATIVE = re.compile(r"^(\d+)\s*([dhm])$")
 _UNITS = {"d": "days", "h": "hours", "m": "minutes"}
 _LINK = re.compile(r"discord(?:app)?\.com/channels/(@me|\d+)(?:/(\d+))?(?:/(\d+))?")
+_WHOLE_LINK = re.compile(r"(?:https?://)?(?:(?:www|ptb|canary)\.)?" + _LINK.pattern + r"/?")
 
 
 def time_of(snowflake: int) -> datetime:
@@ -35,9 +36,9 @@ def from_discord_time(text: str | None) -> str | None:
     return iso(datetime.fromisoformat(text.replace("Z", "+00:00")))
 
 
-def parse_link(text: str) -> tuple[str | None, int | None, int | None] | None:
-    """(server id or '@me', channel id, message id) from a Discord link, or None if `text` is not one."""
-    m = _LINK.search(text)
+def parse_link(text: str, *, whole: bool = False) -> tuple[str | None, int | None, int | None] | None:
+    """(server id or '@me', channel id, message id) from a Discord link, or None if `text` is not one. With `whole`, all of `text` must be the link, not just contain one."""
+    m = _WHOLE_LINK.fullmatch(text) if whole else _LINK.search(text)
     if not m:
         return None
     server = m.group(1)

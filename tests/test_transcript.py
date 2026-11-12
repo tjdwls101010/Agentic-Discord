@@ -194,5 +194,43 @@ class Details(LocalTime):
         ])
 
 
+class WhatTheArchiveKnows(LocalTime):
+    """`show` passes what only the archive knows: which rows a later read found missing, and what lies between two messages it prints next to each other."""
+
+    def lines(self, *raws, gone=(), gaps=None) -> list[str]:
+        return transcript.render([api.parse_message(r) for r in raws], NAMES, gone=set(gone), gaps=gaps or {}).splitlines()
+
+    def test_gone_follows_the_id_of_a_post_a_system_message_and_a_thread_start(self) -> None:
+        self.assertEqual(self.lines(raw(1, content="hi"), gone=[1])[1], "09:05 Ana (nick): hi  [1] (gone)")
+        self.assertEqual(self.lines(raw(1, content="a\nb", edited_timestamp="2026-11-11T00:06:00+00:00"), gone=[1])[1:],
+                         ["09:05 Ana (nick) (edited): a", "    b  [1] (gone)"])
+        self.assertEqual(self.lines(raw(10, t=7), gone=[10])[1], "09:05 * Ana (nick) joined the server  [10] (gone)")
+        original = raw(800, author=BOB, content="let's discuss", channel_id="500", timestamp="2026-11-10T23:00:00+00:00")
+        stub = raw(801, t=21, channel_id="800", message_reference={"message_id": "800", "channel_id": "500"}, referenced_message=original)
+        self.assertEqual(self.lines(stub, gone=[801])[1],
+                         "09:05 bob (thread start; the original is [800] in #general, sent 2026-11-11 08:00): let's discuss  [801] (gone)")
+        orphan = raw(801, t=21, channel_id="800", message_reference={"message_id": "800", "channel_id": "500"}, referenced_message=None)
+        self.assertEqual(self.lines(orphan, gone=[801])[1], "09:05 * thread start: the original message was deleted  [801] (gone)")
+
+    def test_gone_marks_only_the_ids_given(self) -> None:
+        self.assertEqual(self.lines(raw(1, content="a"), raw(2, content="b"), gone=[2])[1:],
+                         ["09:05 Ana (nick): a  [1]", "09:05 Ana (nick): b  [2] (gone)"])
+
+    def test_a_gap_line_goes_before_its_message_and_before_a_new_day_line(self) -> None:
+        late = raw(3, content="c", timestamp="2026-11-11T15:30:00+00:00")
+        self.assertEqual(self.lines(raw(1, content="a"), raw(2, content="b"), late, gaps={2: "12 not shown", 3: "3 not shown; not read through"}), [
+            "── 2026-11-11 Wed ──",
+            "09:05 Ana (nick): a  [1]",
+            "⋯ 12 not shown",
+            "09:05 Ana (nick): b  [2]",
+            "⋯ 3 not shown; not read through",
+            "── 2026-11-12 Thu ──",
+            "00:30 Ana (nick): c  [3]",
+        ])
+
+    def test_without_the_new_arguments_the_transcript_is_unchanged(self) -> None:
+        self.assertEqual(render(raw(1, content="a"), raw(2, content="b"))[1:], ["09:05 Ana (nick): a  [1]", "09:05 Ana (nick): b  [2]"])
+
+
 if __name__ == "__main__":
     unittest.main()

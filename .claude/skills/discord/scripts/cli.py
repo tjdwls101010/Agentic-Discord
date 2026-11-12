@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -50,8 +51,8 @@ class Parser(argparse.ArgumentParser):
 def build_parser() -> Parser:
     db = DATA_DIR / "discord.db"
     p = Parser(prog="cli.py", formatter_class=Formatter,
-               description="Read Discord as the user, read-only: list servers, channels and threads, read a channel's messages into a local archive and a transcript, use Discord's own search, or GET any API path.\n\n"
-                           "Every request is a GET made with the user's token, one at a time, half a second apart. "
+               description="Read Discord as the user, read-only: list servers, channels and threads, read a channel's messages into a local archive and a transcript, use Discord's own search, show what the archive already holds, or GET any API path.\n\n"
+                           "Every request is a GET made with the user's token, one at a time, half a second apart; `show` and SQL over the archive make no request. "
                            + NOT_A_HISTORY.format(db=db),
                epilog=EXITS + " 3 (doctor only) something would stop the commands.\n\nRun `cli.py <command> --help` for each command's arguments, output and failures.")
     p.add_argument("--version", action="version", version=__version__)
@@ -128,6 +129,19 @@ def build_parser() -> Parser:
     g.add_argument("--transcript", action="store_true", help="print the message objects in the response as a transcript instead of JSON.")
     g.add_argument("--inline", type=int, default=200, metavar="N", help="print the body after the header only when it has at most N messages, or for JSON at most N×1000 characters (default 200).")
     g.set_defaults(run=run_get)
+
+    w = sub.add_parser("show", formatter_class=Formatter, help="print messages the archive already holds, by id, without a request",
+                       description="Print messages the archive already holds, chosen by id, as a transcript. No request is made and no token is read, so it works when Discord cannot be reached. "
+                                   "Choosing which messages to show is SQL over the archive; this command only prints them, for example:\n\n"
+                                   f"sqlite3 -readonly \"{db}\" \"SELECT id FROM messages WHERE channel_id = <id> AND sent_at >= '2026-11-01' ORDER BY id\" | uv run \"{SKILL_DIR}/scripts/cli.py\" show -",
+                       epilog="Output: a header -- how many messages in how many channels and that no request was made; the earliest and latest time these rows were fetched (each message is as it was when fetched, so edits, reactions and deletions since may be missing); how many lie outside every read-through range (search hits and reply targets, stored one by one); the ids not in the archive; the result file holding the whole transcript (a new file under ./.discord/results/) -- then the transcript itself when it has at most --inline messages.\n\n"
+                              "Transcript: grouped by channel, groups in the order of their first message, messages oldest first. Each group starts with `══ <server › #channel> (<kind>) [<channel id>] · N messages ══` and `read through: <from> → <to>; …`, the archive's read-through ranges of that channel that overlap the span from the group's first message to its last, in local time to the second (a start rounded up, an end rounded down, so never wider than what was read; to the millisecond when a range lies inside one second), or `read through: nowhere here` when there is none (those rows came from search or as reply targets). This command does not know which period you meant: compare it with these ranges, since outside them the archive may lack messages. "
+                              "Between two messages printed one after the other, `⋯ N not shown` means the archive holds N messages between them that were not asked for, and `⋯ not read through` means no read went through the whole stretch between them, so messages there may be missing from the archive; both can share one line, and no line means the two are neighbours inside a read-through range. "
+                              "`(gone)` after a message's [id]: a later read of its range did not find it (deleted, or no longer visible to you); it is not proof of deletion, and the row shows the last version seen. On a thread's first entry it belongs to that entry, not to the original message in the parent channel. Everything else is the notation of `read --help`.\n\n"
+                              "Exit: 0 done; 1 refused (stdout is one JSON line: error, message, fix, help): there is no archive yet, or none of the ids is in it; 2 the command line must change (same JSON line): something among the ids is neither a message id nor a message link, so a mistake in the SQL is never dropped silently.")
+    w.add_argument("ids", nargs="+", metavar="ID", help="message ids or discord.com/channels/… message links, any number; `-` reads ids separated by whitespace from stdin, such as the output of an sqlite3 query.")
+    w.add_argument("--inline", type=int, default=200, metavar="N", help="print the transcript after the header only when it has at most N messages (default 200); the result file always has all of it.")
+    w.set_defaults(run=run_show)
     return p
 
 
@@ -202,6 +216,43 @@ def run_get(args) -> int:
         query.append((k, v))
     with _Session() as s:
         print(reading.get(s.api, s.db, RESULTS, args.path, query, transcript_view=args.transcript, inline=args.inline))
+    return EXIT_OK
+
+
+_SNOWFLAKE = re.compile(r"\d{15,20}")
+
+
+def _message_ids(values: list[str]) -> list[int]:
+    """The message ids in `values` (ids, message links, or `-` for whitespace-separated ones on stdin). Anything else refuses the whole list."""
+    words: list[str] = []
+    for v in values:
+        words += sys.stdin.read().split() if v == "-" else [v]
+    ids, bad = [], []
+    for word in words:
+        if _SNOWFLAKE.fullmatch(word):
+            ids.append(int(word))
+            continue
+        link = discord_api.parse_link(word, whole=True)
+        if link and link[2]:
+            ids.append(link[2])
+        else:
+            bad.append(word)
+    if bad:
+        shown = ", ".join(repr(b[:80]) for b in bad[:5]) + (f" and {len(bad) - 5} more" if len(bad) > 5 else "")
+        raise Refusal(f"{len(bad)} of the {len(words)} values given are neither a message id nor a message link: {shown}",
+                      fix="select only the id column (SELECT id FROM …), or give ids or discord.com/channels/… message links", kind="usage")
+    if not ids:
+        raise Refusal("no message ids were given (stdin was empty)", fix="check that the query returns rows", kind="usage")
+    return ids
+
+
+def run_show(args) -> int:
+    ids = _message_ids(args.ids)
+    db = archive.Archive.existing(DATA_DIR / "discord.db")
+    try:
+        print(reading.show(db, RESULTS, ids, inline=args.inline))
+    finally:
+        db.close()
     return EXIT_OK
 
 
