@@ -15,7 +15,7 @@ from support.fake_discord import TOKEN, FakeDiscord, ToyWorld
 from support.harness import ENTRY, engine, run_cli
 
 cli = engine("cli")
-COMMANDS = ("doctor", "servers", "channels", "threads", "read", "search", "get", "show")
+COMMANDS = ("doctor", "servers", "channels", "threads", "read", "search", "get", "show", "files")
 
 
 def subparsers(parser: argparse.ArgumentParser) -> dict[str, argparse.ArgumentParser]:

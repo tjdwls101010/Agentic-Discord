@@ -51,7 +51,10 @@ class FakeCdn:
                 else:
                     self.send_header("Connection", "close")
                 self.end_headers()
-                self.wfile.write(body)
+                try:
+                    self.wfile.write(body)
+                except (BrokenPipeError, ConnectionResetError):   # the client stopped reading (a file over its limit)
+                    return
                 if queued in (SHORT, NO_LENGTH):
                     self.close_connection = True
 

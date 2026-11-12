@@ -11,7 +11,7 @@ import threading
 from collections import defaultdict, deque
 from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, quote, urlparse
 
 EPOCH_MS = 1420070400000
 TOKEN = "fake-token-for-tests.abcdef.not-a-real-discord-token-0000"
@@ -43,6 +43,8 @@ class ToyWorld:
         self.members: dict[tuple[int, int], dict] = {}
         self.forbidden: set[int] = set()                                  # channels answering 403 50001
         self.threads: dict[int, list[int]] = defaultdict(list)            # parent -> thread ids
+        self.cdn = None                     # a FakeCdn: attachment links point at it and are signed afresh in every answer
+        self.link_life = 86400.0            # seconds a link signed now stays valid; negative hands out expired links
 
     def tick(self, seconds: float = 1.0) -> None:
         self.now += timedelta(seconds=seconds)
@@ -100,6 +102,32 @@ class ToyWorld:
         self.created[mid] = self.now
         self.channels[channel]["last_message_id"] = str(mid)
         return mid
+
+    def attachment(self, channel: int, filename: str, data: bytes, *, content_type: str = "image/png", declared_type: str | None = None,
+                   declared_size: int | None = None, width: int | None = None, height: int | None = None, att_id=None) -> dict:
+        """An attachment object for `post(..., attachments=[...])`, its bytes served by `self.cdn`. The declared type and size can differ from what the CDN serves, as they do on Discord."""
+        aid = att_id if att_id is not None else self.next_id()
+        path = f"/attachments/{channel}/{aid}/{quote(filename, safe='')}"
+        self.cdn.add(path, data, content_type)
+        a = {"id": str(aid), "filename": filename, "size": len(data) if declared_size is None else declared_size,
+             "url": self.cdn.link(path, life=self.link_life), "proxy_url": "https://media.discordapp.net" + path,
+             "content_type": declared_type or content_type}
+        if width is not None:
+            a.update(width=width, height=height)
+        return a
+
+    def resign(self, body):
+        """`body` with every attachment link signed afresh for `link_life`, the way each answer from Discord carries new links."""
+        if isinstance(body, list):
+            return [self.resign(x) for x in body]
+        if isinstance(body, dict):
+            out = {}
+            for k, v in body.items():
+                if k == "url" and isinstance(v, str) and v.startswith("https://cdn.discordapp.com/attachments/"):
+                    v = self.cdn.link(urlparse(v).path, life=self.link_life)
+                out[k] = self.resign(v)
+            return out
+        return body
 
     def delete(self, mid: int) -> None:
         for msgs in self.messages.values():
@@ -284,6 +312,8 @@ class FakeDiscord:
         if self.before_answer:
             self.before_answer(path, q)
         status, body = self.world.answer(path, q)
+        if self.world.cdn is not None:
+            body = self.world.resign(body)
         return status, body, None
 
     def calls(self, pattern: str) -> list[dict]:

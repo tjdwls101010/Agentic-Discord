@@ -23,7 +23,7 @@ TESTS = Path(__file__).resolve().parent
 
 #: The kind of every unit directly in the package. A new unit fails until it is placed here on purpose.
 KINDS = {
-    "reading": "feature", "directory": "feature", "doctor": "feature",
+    "reading": "feature", "directory": "feature", "doctor": "feature", "attachments": "feature",
     "discord_api": "system",
     "archive": "store", "credentials": "store",
     "records": "shared", "transcript": "shared", "errors": "shared",
@@ -32,8 +32,8 @@ KINDS = {
 #: What each kind may import besides its own unit.
 MAY_IMPORT = {"feature": {"system", "store", "shared"}, "system": {"shared"}, "store": {"shared"}, "shared": {"shared"}}
 
-#: The one import between features: reading names the people in what it prints through directory.
-FEATURE_EDGES = {("reading", "directory")}
+#: The imports between features: reading names the people in what it prints through directory; attachments gets a message again for new links through reading's collector.
+FEATURE_EDGES = {("reading", "directory"), ("attachments", "reading")}
 
 #: Shared units are leaves except for these: records and transcript may raise a Refusal, transcript renders records.
 SHARED_EDGES = {("transcript", "records"), ("transcript", "errors"), ("records", "errors")}
@@ -312,6 +312,7 @@ GOOD = {
     "discord/reading/collect.py": "from discord import archive, directory, errors\ndef collect(): pass\n",
     "discord/directory/__init__.py": "__all__ = ['names']\ndef names(): pass\n",
     "discord/doctor.py": "",
+    "discord/attachments.py": "from discord import reading\n",
     "discord/discord_api/__init__.py": "__all__ = []\n",
     "discord/archive/__init__.py": "from .db import open_db\n__all__ = ['open_db']\n",
     "discord/archive/db.py": "def open_db(): pass\n",

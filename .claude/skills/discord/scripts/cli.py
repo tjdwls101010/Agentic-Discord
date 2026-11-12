@@ -16,7 +16,7 @@ import re
 import sys
 from pathlib import Path
 
-from discord import __version__, archive, credentials, directory, discord_api, doctor, reading
+from discord import __version__, archive, attachments, credentials, directory, discord_api, doctor, reading
 from discord.errors import Refusal
 
 # Not resolved: through a symlinked install this stays the path the skill's pre-approved sqlite3 rule names.
@@ -142,6 +142,20 @@ def build_parser() -> Parser:
     w.add_argument("ids", nargs="+", metavar="ID", help="message ids or discord.com/channels/… message links, any number; `-` reads ids separated by whitespace from stdin, such as the output of an sqlite3 query.")
     w.add_argument("--inline", type=int, default=200, metavar="N", help="print the transcript after the header only when it has at most N messages (default 200); the result file always has all of it.")
     w.set_defaults(run=run_show)
+
+    f = sub.add_parser("files", formatter_class=Formatter, help="download the files and images attached to messages the archive holds",
+                       description="Download the files and images attached to messages the archive holds, so they can be opened (an image file can be read as an image). "
+                                   "They go to ./.discord/files/<message id>/<attachment id>-<name> in the working directory, which git ignores; a file already there is never downloaded again. Choose the messages with SQL, as for `show`.\n\n"
+                                   "Attachment links are signed and stop working 12-24 hours after the message was fetched. A live link costs no Discord request: the CDN needs no token, and none is read. An expired one costs a request to get its message again (one per message, more if Discord asks to retry), at most --refresh messages per call. "
+                                   "Given the first entry of a thread made from a message, it takes that original message's files, under the original's id. A file can differ in type and size from what its message declares (Discord re-encodes some images): what is listed is what arrived.",
+                       epilog="Output: a first line -- messages, files, how many were downloaded now and their size, how many were already here, how many messages were fetched again and the API requests that took -- then per message `[<message id>] <date time> <author> · #<channel>` and under it one line per file: `  <absolute path>  <type> <size> <width>×<height>`, the type and size as received (for a file already here, its size on disk), the pixel size as the message declares it, anything unknown left out, and `(already here)` after a file an earlier call downloaded. "
+                              "Then `not downloaded:`, each file or message with why: over --max-mb; link expired and not refreshed (with the `read` that refreshes its range, after which `files` finds live links); not in the refreshed answer (deleted or no longer visible to you, not proof of deletion); the message no longer has this attachment; access refused; not in the archive; no attachments; an id or name that cannot be used safely; a download that failed (cut short, no length, another status). "
+                              "When refreshing had to stop (no token, a rejected token, or another failure), the reason and its fix come last; files with live links are downloaded all the same.\n\n"
+                              "Exit: 0 done, also when some files were not downloaded (the list says which); 1 refused (stdout is one JSON line: error, message, fix, help): there is no archive yet, or none of the ids is in it; 2 the command line must change (same JSON line): something among the ids is neither a message id nor a message link.")
+    f.add_argument("ids", nargs="+", metavar="ID", help="message ids or discord.com/channels/… message links, any number; `-` reads ids separated by whitespace from stdin, such as the output of an sqlite3 query.")
+    f.add_argument("--max-mb", type=float, default=25, metavar="N", help="skip a file whose declared size is over N MB (default 25); a download that turns out larger is stopped there as well.")
+    f.add_argument("--refresh", type=int, default=20, metavar="N", help="get at most N messages again for new links (default 20; 0 gets none). The rest are listed with a `read` that refreshes their range, 100 messages per request.")
+    f.set_defaults(run=run_files)
     return p
 
 
@@ -154,12 +168,17 @@ def run_doctor(args) -> int:
     return EXIT_OK if report["ok"] else EXIT_BLOCKED
 
 
+def _connect():
+    """The API with the user's token; reading the token is the first thing it does, so a command without one refuses before anything else."""
+    token, _ = credentials.load()
+    return discord_api.connect(token, token_hint=credentials.hint())
+
+
 class _Session:
     """The token, the API and the archive, opened for one command and closed after it."""
 
     def __enter__(self):
-        token, _ = credentials.load()
-        self.api = discord_api.connect(token, token_hint=credentials.hint())
+        self.api = _connect()
         self.db = archive.Archive(DATA_DIR / "discord.db")
         return self
 
@@ -251,6 +270,18 @@ def run_show(args) -> int:
     db = archive.Archive.existing(DATA_DIR / "discord.db")
     try:
         print(reading.show(db, RESULTS, ids, inline=args.inline))
+    finally:
+        db.close()
+    return EXIT_OK
+
+
+def run_files(args) -> int:
+    if args.max_mb <= 0 or args.refresh < 0:
+        raise Refusal("--max-mb must be above 0 and --refresh at least 0", kind="usage")
+    ids = _message_ids(args.ids)
+    db = archive.Archive.existing(DATA_DIR / "discord.db")
+    try:
+        print(attachments.files(db, _connect, OUTPUT_DIR, ids, max_bytes=int(args.max_mb * 1024 * 1024), refresh=args.refresh))
     finally:
         db.close()
     return EXIT_OK
