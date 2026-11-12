@@ -1,6 +1,6 @@
 """GET requests to Discord's REST API, with the waits and retries a user token needs.
 
-There is deliberately no way to send any other method: `get` takes no method argument and builds every request as a GET, so the skill stays read-only by construction. The reason is measured, not only principle: the first message this account's token sent through the API (2026-11-12) was followed about 20 seconds later by every request answering 401 and Discord recording a spam violation and a password reset on the account.
+There is deliberately no way to send any other method: `get` takes no method argument and builds every request as a GET, so the skill stays read-only by construction. The reason is measured, not only principle: the first message this account's token sent through the API (2026-11-12) was followed by every request answering 401 from about 20 seconds later, and by Discord recording a spam violation on the account and requiring a password reset.
 """
 
 from __future__ import annotations

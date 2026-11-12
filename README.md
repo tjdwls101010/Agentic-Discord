@@ -26,10 +26,16 @@ uv run ~/.claude/skills/discord/scripts/cli.py doctor
 
 토큰은 브라우저에서 discord.com에 로그인한 뒤 개발자 도구로 얻는다. 방법은 DiscordChatExporter의 [Token and IDs](https://github.com/Tyrrrz/DiscordChatExporter/blob/master/.docs/Token-and-IDs.md) 문서에 정리되어 있다.
 
-Aside 브라우저에 `discord.com` 탭이 로그인돼 있으면 토큰을 화면에 띄우지 않고 파일로 바로 옮길 수 있다. 토큰은 표준 출력에서 곧장 파일로 가고(화면과 대화 기록에 찍히지 않는다), 파일은 처음부터 600으로 만들어지며, 끝나면 스크립트를 지운다.
+Aside 브라우저에 `discord.com` 탭이 로그인돼 있으면 토큰을 화면에 띄우지 않고 파일로 바로 옮길 수 있다. 토큰이 담긴 표준 출력은 화면이 아니라 파일로만 간다. 파일은 처음부터 600으로 만들어지고, 토큰을 얻었을 때만 기존 `.env`를 바꾼다. 스크립트와 임시 파일은 끝나면(실패해도) 지워진다.
 
 ```bash
-cat > /tmp/discord-token.js <<'EOF'
+(
+  set -euo pipefail
+  umask 077
+  js=$(mktemp /tmp/discord-token.XXXXXX)
+  out=$(mktemp /tmp/discord-env.XXXXXX)
+  trap 'rm -f "$js" "$out"' EXIT
+  cat > "$js" <<'EOF'
 const tabs = await listBrowserTabs();
 const tab = tabs.find(t => /^https:\/\/discord\.com\/channels\//.test(t.url));
 if (!tab) throw new Error('no logged-in discord.com tab');
@@ -45,8 +51,9 @@ const tok = await pg.evaluate(() => {
 if (!tok) throw new Error('no token in this tab');
 console.log('DISCORD_TOKEN=' + tok);
 EOF
-(umask 077; aside repl --file /tmp/discord-token.js 2>/dev/null | grep '^DISCORD_TOKEN=' > ~/.claude/skills/discord/scripts/.env)
-rm /tmp/discord-token.js
+  aside repl --file "$js" | grep '^DISCORD_TOKEN=' > "$out"
+  mv "$out" ~/.claude/skills/discord/scripts/.env
+)
 uv run ~/.claude/skills/discord/scripts/cli.py doctor
 ```
 
@@ -64,7 +71,7 @@ uv run ~/.claude/skills/discord/scripts/cli.py doctor
 
 사용자 토큰으로 디스코드를 자동화하는 것은 [디스코드 약관 위반](https://support.discord.com/hc/en-us/articles/115002192352-Automated-user-accounts-self-bots-)이고, 디스코드는 이를 실제로 집행한다.
 
-- **전송 한 건으로 제재됐다.** 2026-11-12, 이 스킬과 같은 토큰·같은 헤더로 API를 통해 메시지 한 건을 보냈다. 약 20초 뒤부터 모든 요청이 401이 됐고, 계정에 스팸 규정 위반과 비밀번호 재설정이 기록됐다. 그 전 이틀 동안의 읽기(GET) 수백 건은 문제가 없었다. 그래서 이 스킬에는 전송이 없다.
+- **전송 한 건 뒤 제재가 기록됐다.** 2026-11-12, 이 스킬과 같은 토큰·같은 헤더로 API를 통해 메시지 한 건을 보냈다. 약 20초 뒤부터 모든 요청이 401이 됐고, 같은 때 계정에 스팸 규정 위반과 비밀번호 재설정 요구가 기록됐다. 그 전 이틀 동안의 읽기(GET) 수백 건은 문제가 없었다. 그래서 이 스킬에는 전송이 없다.
 - **읽기만으로도 제재 보고가 있다.** 2026년 3월경부터 읽기만 하는 도구(DiscordChatExporter)의 사용자들이 로그아웃과 비밀번호 재설정을 당했다고 보고했다([이슈 #1497](https://github.com/Tyrrrz/DiscordChatExporter/issues/1497)). 보고된 단계는 재설정 → 계정 상태 위반 → 정지이고, 속도를 늦춰도 막지 못했다고 한다.
 
 이 스킬은 요청을 하나씩 0.5초 간격으로 보내고, 재시도는 디스코드가 요구하는 만큼만 한다. 보관소에 이미 있는 것은 요청 없이 다시 본다. 그래도 위험이 없어지지는 않는다.
