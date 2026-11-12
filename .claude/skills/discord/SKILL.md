@@ -21,7 +21,13 @@ A parent channel's read does not cover its threads or a forum's posts; a claim a
 
 ## What it costs
 
-A broad read takes many requests. Automating a user token is against Discord's terms, so every request is pressure on the user's own account. The archive and the result files keep other people's messages, DMs included: being able to read them is not leave to pass them on.
+What the archive already holds costs no request to read again: SQL chooses it and `show` prints it. Before reading Discord, look at what the archive holds for that channel (`coverage_named`); a request is for what lies outside it, or for what changed since. Attachment links expire about a day after their message was fetched; from then on `files` spends a request per message, where reading their range again spends one per 100 messages.
+
+Automating a user token is against Discord's terms, and Discord enforces it: users of tools that only read, like this one, report being logged out and made to reset their password, with suspension further along, and that slowing down did not prevent it. Every request is pressure on the user's own account.
+
+Nothing here sends. When one message was sent with this account's token outside the skill, Discord flagged the account for spam and reset its password about 20 seconds later.
+
+The archive, the result files and downloaded files hold other people's messages and uploads, DMs included: being able to read them is not leave to pass them on.
 
 ## What you cannot see from here
 
