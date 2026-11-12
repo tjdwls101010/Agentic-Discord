@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from discord.records import Attachment, Channel, Embed, Event, Forward, Message, Poll, Reaction, Server, User
 
+from .cdn import expires_at
 from .snowflake import from_discord_time
 
 #: Message types that are someone's post. 20 and 23 are an app's answer to a slash or context-menu command.
@@ -33,7 +34,8 @@ def user(raw: dict, *, webhook: bool = False) -> User:
 
 def _attachments(raw_list) -> tuple[Attachment, ...]:
     return tuple(Attachment(filename=a.get("filename") or "", url=a.get("url") or "", content_type=a.get("content_type"),
-                            size=a.get("size")) for a in raw_list or ())
+                            size=a.get("size"), id=_int(a.get("id")), width=_int(a.get("width")), height=_int(a.get("height")),
+                            expires_at=expires_at(a.get("url") or "")) for a in raw_list or ())
 
 
 def _embeds(raw_list) -> tuple[Embed, ...]:

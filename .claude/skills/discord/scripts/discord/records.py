@@ -28,10 +28,15 @@ class User:
 
 @dataclass(frozen=True)
 class Attachment:
+    """A file on a message as the message declares it. `url` is signed and stops working at `expires_at`; `content_type` and `size` are what the message says, which the file the url serves can differ from."""
     filename: str
     url: str
     content_type: str | None = None
     size: int | None = None
+    id: int | None = None
+    width: int | None = None
+    height: int | None = None
+    expires_at: str | None = None
 
 
 @dataclass(frozen=True)

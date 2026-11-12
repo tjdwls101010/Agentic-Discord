@@ -9,7 +9,7 @@ import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
-from discord.records import Embed, Message, User
+from discord.records import Attachment, Embed, Message, User
 
 _MENTION = re.compile(r"<@!?(\d+)>|<#(\d+)>|<@&(\d+)>|<a?:(\w+):(\d+)>|<t:(-?\d+)(?::([tTdDfFR]))?>")
 _CODE = re.compile(r"(```.*?```|`[^`\n]*`)", re.S)
@@ -116,6 +116,22 @@ def _quote(msg: Message, names: Names) -> str:
     return text if len(text) <= _QUOTE else text[: _QUOTE - 1] + "…"
 
 
+def size_text(n: int) -> str:
+    """A byte count as the transcript and `files` write it: B, KB or MB in units of 1024."""
+    if n < 1024:
+        return f"{n} B"
+    if n < 1024 * 1024:
+        return f"{n / 1024:.0f} KB"
+    return f"{n / (1024 * 1024):.1f} MB"
+
+
+def _file(a: Attachment) -> str:
+    """`name (type, size, width×height)` as the message declares them, without the link: it is signed and expires within a day; the archive's raw keeps it and `files` fetches the bytes."""
+    bits = [b for b in (a.content_type, size_text(a.size) if a.size is not None else None,
+                        f"{a.width}×{a.height}" if a.width and a.height else None) if b]
+    return a.filename + (f" ({', '.join(bits)})" if bits else "")
+
+
 def _indent(text: str) -> str:
     return "\n".join(line if i == 0 or not line.strip() else "    " + line for i, line in enumerate(text.split("\n")))
 
@@ -135,8 +151,7 @@ def _embed(e: Embed, names: Names, skip_url: str) -> str:
 def _details(msg: Message, names: Names) -> list[str]:
     out = []
     for a in msg.attachments:
-        kind = f" ({a.content_type})" if a.content_type else ""
-        out.append(f"  + file: {a.filename}{kind} {a.url}")
+        out.append(f"  + file: {_file(a)}")
     for e in msg.embeds:
         text = _embed(e, names, msg.content)
         if text:
@@ -221,7 +236,7 @@ def _message(msg: Message, names: Names, show_channel: bool, gone: bool) -> list
                                        f"message [{f.message_id}]" if f.message_id else None,
                                        f"sent {_local(f.sent_at, '%Y-%m-%d %H:%M')}" if f.sent_at else None) if x)
         lines.append(f"  + forwarded ({origin}; Discord does not say who wrote it): {_indent(resolve(f.content, names))}")
-        lines += [f"  + forwarded file: {a.filename} {a.url}" for a in f.attachments]
+        lines += [f"  + forwarded file: {_file(a)}" for a in f.attachments]
         lines += [f"  + forwarded embed: {t}" for e in f.embeds if (t := _embed(e, names, f.content))]
     return lines + _details(msg, names)
 

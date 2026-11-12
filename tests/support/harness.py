@@ -45,7 +45,7 @@ def run_cli(*args: str, env: dict | None = None, cwd: str | None = None, timeout
 
 def tokenless_copy() -> Path:
     """A copy of `scripts/` without `.env`, in a new temporary directory, for runs that must not find the real token."""
-    copy = Path(tempfile.mkdtemp()) / "scripts"
+    copy = Path(tempfile.mkdtemp()).resolve() / "scripts"   # resolved: the skill names its own files by resolved path
     shutil.copytree(SCRIPTS, copy, ignore=shutil.ignore_patterns("__pycache__", ".env"))
     return copy
 
